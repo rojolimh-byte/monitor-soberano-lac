@@ -1,0 +1,5 @@
+source_org,source_dataset,base_url,access_method,frequency,license_notes,update_policy
+World Bank,WDI,https://api.worldbank.org/v2,REST API,annual,Open data; verificar términos de uso,Actualización según disponibilidad de WDI
+IMF,WEO,https://www.imf.org/en/Publications/WEO,IMF Data API o descarga oficial,semiannual,Verificar términos de uso,Cada edición WEO
+IMF,IFS,https://data.imf.org,IMF Data API,monthly,Verificar términos de uso,Según serie
+CEPAL,CEPALSTAT,https://api-cepalstat.cepal.org,REST API,varies,Verificar términos de uso,Según indicador
