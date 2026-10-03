@@ -1,0 +1,7 @@
+variable_id,variable_name,definition,unit,frequency,source_org,source_dataset,source_series_code,transformation,observation_status,last_updated_source,notes
+real_gdp_growth_yoy,Crecimiento real del PIB,Variación porcentual anual del PIB a precios constantes,percent,annual,World Bank,WDI,NY.GDP.MKTP.KD.ZG,none,actual,,Indicador anual de actividad económica
+inflation_cpi_yoy,Inflación IPC,Variación porcentual anual del índice de precios al consumidor,percent,annual,World Bank,WDI,FP.CPI.TOTL.ZG,none,actual,,Difiere de inflación de fin de período
+fx_reserves_usd,Reservas internacionales,Reservas totales incluyendo oro en dólares corrientes,current_usd,annual,World Bank,WDI,FI.RES.TOTL.CD,none,actual,,Convertir a millones de USD en dashboard
+central_gov_debt_gdp,Deuda del gobierno central,Deuda del gobierno central como porcentaje del PIB,percent_gdp,annual,World Bank,WDI,GC.DOD.TOTL.GD.ZS,none,actual,,Validar cobertura institucional por país
+official_exchange_rate,Tipo de cambio oficial,Unidades de moneda local por dólar estadounidense,local_currency_per_usd,annual,World Bank,WDI,PA.NUS.FCRF,annual_average,actual,,Usualmente promedio anual
+current_account_gdp,Cuenta corriente,Saldo de cuenta corriente como porcentaje del PIB,percent_gdp,annual,World Bank,WDI,BN.CAB.XOKA.GD.ZS,none,actual,,Indicador de vulnerabilidad externa
