@@ -223,3 +223,6 @@ __marimo__/
 data/raw/world_bank/
 data/processed/*.parquet
 
+
+# Raw IMF WEO workbook downloaded locally for processing
+WEOApr2026all.xlsx
