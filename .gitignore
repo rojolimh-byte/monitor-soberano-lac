@@ -218,3 +218,8 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# Datos crudos descargados y formatos binarios regenerables
+data/raw/world_bank/
+data/processed/*.parquet
+
