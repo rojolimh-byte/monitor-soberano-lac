@@ -54,20 +54,36 @@ RAW_DIR.mkdir(parents=True, exist_ok=True)
 PROCESSED_DIR.mkdir(parents=True, exist_ok=True)
 
 
-def get_indicator_data(country, indicator_code):
+def get_indicator_data(country, indicator_code, max_attempts=4):
     url = (
         f"{BASE_URL}/country/{country}/indicator/{indicator_code}"
         f"?date={START_YEAR}:{END_YEAR}&format=json&per_page=1000"
     )
 
-    response = requests.get(url, timeout=30)
-    response.raise_for_status()
-    payload = response.json()
+    for attempt in range(1, max_attempts + 1):
+        try:
+            response = requests.get(url, timeout=90)
+            response.raise_for_status()
+            payload = response.json()
 
-    if len(payload) < 2 or payload[1] is None:
-        return [], payload
+            if len(payload) < 2 or payload[1] is None:
+                return [], payload
 
-    return payload[1], payload
+            return payload[1], payload
+
+        except requests.exceptions.RequestException as error:
+            if attempt == max_attempts:
+                raise RuntimeError(
+                    f"Unable to download {country} / {indicator_code} "
+                    f"after {max_attempts} attempts."
+                ) from error
+
+            wait_seconds = attempt * 5
+            print(
+                f"Attempt {attempt} failed for {country} / {indicator_code}. "
+                f"Retrying in {wait_seconds} seconds..."
+            )
+            time.sleep(wait_seconds)
 
 
 def main():
