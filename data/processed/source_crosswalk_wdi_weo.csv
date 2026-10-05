@@ -1,0 +1,5 @@
+variable_id,source,source_code,definition,rule
+central_gov_debt_gdp,World Bank WDI,GC.DOD.TOTL.GD.ZS,"Central government debt, percent of GDP",Keep as a separate WDI series
+general_gov_gross_debt_gdp,IMF WEO April 2026,GGXWDG_NGDP,"General government gross debt, percent of GDP",Use as a complementary FMI series; do not replace central-government debt
+inflation_cpi_yoy,World Bank WDI,FP.CPI.TOTL.ZG,"Consumer price inflation, annual percent change",Keep as a separate WDI series
+inflation_avg_cpi_pct,IMF WEO April 2026,PCPIPCH,"Consumer price inflation, period average, annual percent change",Use as a complementary FMI series; do not replace end-of-period inflation measures
