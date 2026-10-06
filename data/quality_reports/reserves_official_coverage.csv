@@ -1,0 +1,4 @@
+country_iso3,observations,first_date,last_date,non_observation_rows_excluded,missing_values,duplicate_dates,frequency_observed,quality_flag
+ARG,4076,2010-01-04,2026-09-30,0,0,0,daily,pass_structural_checks
+CHL,178,1982-03-01,2026-06-01,0,0,0,quarterly,warning_frequency_metadata
+COL,800,1960-01-31,2026-08-31,4,0,0,monthly,pass_structural_checks
