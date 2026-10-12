@@ -1,0 +1,13 @@
+Dataset,Chequeo,Resultado
+Reservas locales,Países,3
+Reservas locales,Registros totales,5054
+Reservas locales,Duplicados (país+fecha),0
+Reservas locales,Valores nulos,0
+Reservas locales,Rango fechas,1960-01-31 a 2026-09-30
+WEO 2025,Países,5
+WEO 2025,Indicadores,2
+WEO 2025,Valores nulos,0
+Vulnerabilidad FMI,Países,16
+Vulnerabilidad FMI,Inconsistencias (total ≠ componentes),0
+Vulnerabilidad FMI,Nulos en contingentes,1
+Cruce FMI-local,Países con diferencia >5%,0
