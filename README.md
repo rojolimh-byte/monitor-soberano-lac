@@ -28,7 +28,7 @@ Los países de América Latina enfrentan vencimientos de deuda externa, derivado
 
 | Dimensión | Indicador | Fuente | Cobertura |
 |---|---|---|---|
-| Vulnerabilidad externa | Drenajes predeterminados sobre reservas totales | IMF IRFCL | 16 países |
+| Vulnerabilidad externa | Drenajes netos predeterminados sobre reservas totales | IMF IRFCL | 16 países |
 | Composición del riesgo | Drenajes por instrumento: deuda, derivados, repos, garantías, líneas de crédito, puttable bonds | IMF IRFCL | 16 países |
 | Reservas oficiales | Validación cruzada de reservas totales | Bancos centrales (BCRA, BCCh, BanRep, y reservas publicadas de BRA, PER, MEX) | 6 países (2024) |
 | Contexto macro | Deuda del gobierno general (% PIB) | IMF WEO | 5 países |
@@ -91,7 +91,7 @@ Se calculó el cociente entre las reservas IRFCL (`RAFA_USD`) y las reservas tot
 | Chile | 0.89 |
 | Argentina | 0.72 |
 
-Los cocientes por debajo de 1 reflejan diferencias de cobertura, valuación o fecha de corte entre la serie IRFCL y las cifras publicadas por cada banco central. Para Argentina (0.72), la brecha del 28% es la mayor de la muestra; el índice usa el denominador IRFCL por consistencia entre países, y la causa específica de la brecha está causa no determinada; ver docs/METHODOLOGY.md. El caso de México (1.01) refleja una diferencia de definición o fecha de corte entre fuentes y se documenta como tal en la metodología.
+Los cocientes por debajo de 1 reflejan diferencias de cobertura, valuación o fecha de corte entre la serie IRFCL y las cifras publicadas por cada banco central. Para Argentina (0.72), la brecha del 28% es la mayor de la muestra; el índice usa el denominador IRFCL por consistencia entre países, y la causa específica de la brecha no está determinada (ver docs/METHODOLOGY.md). El caso de México (1.01) refleja una diferencia de definición o fecha de corte entre fuentes y se documenta como tal en la metodología.
 
 ## Instalación y ejecución
 
@@ -125,8 +125,9 @@ streamlit run dashboards/app.py
 - [ ] Backtesting sistemático contra episodios de crisis
 - [ ] Alertas automáticas cuando el índice supera umbrales
 
+- La validación de reservas cubre 6 de los 16 países de la muestra; el resto se basa exclusivamente en datos IRFCL sin verificación cruzada.
+
 ## Licencia
 
 MIT
 
-- La validación de reservas cubre 6 de los 16 países de la muestra; el resto se basa exclusivamente en datos IRFCL sin verificación cruzada.
