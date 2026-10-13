@@ -91,7 +91,7 @@ Se calculó el cociente entre las reservas IRFCL (`RAFA_USD`) y las reservas tot
 | Chile | 0.89 |
 | Argentina | 0.72 |
 
-Los cocientes por debajo de 1 reflejan diferencias de cobertura, valuación o fecha de corte entre la serie IRFCL y las cifras publicadas por cada banco central. Para Argentina (0.72), la brecha del 28% es la mayor de la muestra; el índice usa el denominador IRFCL por consistencia entre países, y la causa específica de la brecha no está determinada (ver docs/METHODOLOGY.md). El caso de México (1.01) refleja una diferencia de definición o fecha de corte entre fuentes y se documenta como tal en la metodología.
+Los cocientes por debajo de 1 reflejan diferencias de cobertura, valuación o fecha de corte entre la serie IRFCL y las cifras publicadas por cada banco central. Para Argentina (0.72), la brecha del 28% es la mayor de la muestra; el índice usa el denominador IRFCL por consistencia entre países, y la causa específica de la brecha no está determinada (ver [docs/METHODOLOGY.md](docs/METHODOLOGY.md)). El caso de México (1.01) refleja una diferencia de definición o fecha de corte entre fuentes y se documenta como tal en la metodología.
 
 ## Instalación y ejecución
 
@@ -115,6 +115,7 @@ streamlit run dashboards/app.py
 - La deuda WEO tiene cobertura parcial (5 países) y se usa como contexto, no como componente del índice.
 - El índice mide vulnerabilidad de stock; no incorpora flujos futuros de ingresos de divisas (exportaciones, IED, remesas).
 - La serie IRFCL `RAFA_USD` corresponde a reservas oficiales totales (incluye oro, DEG y posición de reserva en el FMI). Las diferencias de validación frente a las cifras de los bancos centrales reflejan diferencias de cobertura, valuación o fecha de corte entre fuentes, no la exclusión de oro y DEG.
+- La validación de reservas cubre 6 de los 16 países de la muestra; el resto se basa exclusivamente en datos IRFCL sin verificación cruzada.
 - El índice es relativo a la muestra de 16 países; no es una medida absoluta de riesgo.
 
 ## Próximos pasos
@@ -125,7 +126,6 @@ streamlit run dashboards/app.py
 - [ ] Backtesting sistemático contra episodios de crisis
 - [ ] Alertas automáticas cuando el índice supera umbrales
 
-- La validación de reservas cubre 6 de los 16 países de la muestra; el resto se basa exclusivamente en datos IRFCL sin verificación cruzada.
 
 ## Licencia
 
