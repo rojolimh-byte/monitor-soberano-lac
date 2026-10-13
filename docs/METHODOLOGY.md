@@ -46,3 +46,10 @@ Panamá, Ecuador y El Salvador no emiten moneda propia. Sus reservas cumplen una
 ## Nota sobre México (validación 2024)
 
 El cociente IRFCL/referencia para México (1.01) se ubica levemente por encima de 1, a diferencia del resto de los países validados. Esto refleja una diferencia de definición o fecha de corte entre la serie IRFCL y las reservas totales publicadas por Banxico, y se documenta como tal para transparencia.
+
+
+## Changelog de cálculo
+
+**2026-10**: se regeneró el índice desde la serie consolidada `vulnerabilidad_reservas_latam_2025_completa.csv`, que incorpora observaciones actualizadas de IRFCL y una definición uniforme de drenajes netos predeterminados (entradas contractuales menos salidas en el horizonte de 12 meses). Como resultado, los ratios y el ranking cambiaron respecto de la versión anterior (por ejemplo, Panamá pasó de -1.04 a -2.47 y Argentina de -2.06 a -1.53). La versión vigente es la publicada en `resultados/indice_vulnerabilidad_integral_latam_2025.csv`.
+
+**Denominador del índice**: se usa la serie IRFCL `RAFA_USD` (reservas oficiales totales del FMI). Para Argentina, cuyo cociente de validación es 0.72, se mantiene el denominador IRFCL por consistencia metodológica entre países; la brecha frente a la referencia del BCRA se documenta en el README y su causa específica está pendiente de verificación.

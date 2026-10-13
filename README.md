@@ -9,7 +9,7 @@
 
 ![Índice de vulnerabilidad](reports/indice_vulnerabilidad_integral_latam_2025.png)
 
-> **Datos a: 2024** (última observación anual completa disponible en IMF IRFCL).
+> **Datos a: 2024** (último año con observación anual completa y validada en IMF IRFCL al momento de la construcción del índice).
 
 > ⚠️ **Aviso**: herramienta informativa; no constituye asesoría de inversión.
 
@@ -66,11 +66,11 @@ Los países de América Latina enfrentan vencimientos de deuda externa, derivado
 
 El índice se construye con el ratio de **drenajes predeterminados sobre reservas totales** del FMI (IRFCL):
 
-\[
+$$
 \text{ratio} = \frac{\text{drenajes netos predeterminados}}{\text{reservas oficiales totales}}
-\]
+$$
 
-- **Drenajes predeterminados** (`RAPFA_USD`): obligaciones en divisa con vencimiento cierto en los próximos 12 meses (amortizaciones de deuda, forwards/futuros, repos).
+- **Drenajes netos predeterminados** (`RAPFA_USD`): obligaciones en divisa con vencimiento cierto en los próximos 12 meses (amortizaciones de deuda, forwards/futuros, repos), netas de las entradas contractuales equivalentes en el mismo horizonte. Un ratio positivo (como el de Brasil, +0.04) indica entradas netas.
 - **Reservas totales** (`RAFA_USD`): divisa convertible, títulos, oro, DEG y posición de reserva en el FMI.
 - **Drenajes contingentes** (garantías, puttable bonds, líneas de crédito no dibujadas, opciones): se reportan y desagregan por instrumento en el dashboard, pero **no entran en el cálculo del índice**.
 - **Normalización**: rank percentil del ratio dentro de la muestra de 16 países por año. El ratio más negativo (drenajes que más superan las reservas) recibe índice 1.0.
@@ -91,7 +91,7 @@ Se calculó el cociente entre las reservas IRFCL (`RAFA_USD`) y las reservas tot
 | Chile | 0.89 |
 | Argentina | 0.72 |
 
-Los cocientes por debajo de 1 son coherentes con diferencias de cobertura entre la serie IRFCL y las reservas totales publicadas (por ejemplo, tratamiento de oro y DEG según el reporte de cada país). El caso de México (1.01) refleja una diferencia de definición o fecha de corte entre fuentes y se documenta como tal en la metodología.
+Los cocientes por debajo de 1 reflejan diferencias de cobertura, valuación o fecha de corte entre la serie IRFCL y las cifras publicadas por cada banco central. Para Argentina (0.72), la brecha del 28% es la mayor de la muestra; el índice usa el denominador IRFCL por consistencia entre países, y la causa específica de la brecha está pendiente de verificación. El caso de México (1.01) refleja una diferencia de definición o fecha de corte entre fuentes y se documenta como tal en la metodología.
 
 ## Instalación y ejecución
 
@@ -114,7 +114,7 @@ streamlit run dashboards/app.py
 
 - La deuda WEO tiene cobertura parcial (5 países) y se usa como contexto, no como componente del índice.
 - El índice mide vulnerabilidad de stock; no incorpora flujos futuros de ingresos de divisas (exportaciones, IED, remesas).
-- La serie IRFCL puede excluir oro y DEG según el reporte de cada país; las reservas totales publicadas por los bancos centrales incluyen ambos, lo que explica cocientes de validación por debajo de 1.
+- La serie IRFCL `RAFA_USD` corresponde a reservas oficiales totales (incluye oro, DEG y posición de reserva en el FMI). Las diferencias de validación frente a las cifras de los bancos centrales reflejan diferencias de cobertura, valuación o fecha de corte entre fuentes, no la exclusión de oro y DEG.
 - El índice es relativo a la muestra de 16 países; no es una medida absoluta de riesgo.
 
 ## Próximos pasos
