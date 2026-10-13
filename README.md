@@ -3,7 +3,7 @@
 [![Python](https://img.shields.io/badge/Python-3.10+-blue)](https://www.python.org)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 [![Data: IMF IRFCL](https://img.shields.io/badge/Data-IMF%20IRFCL-blueviolet)](https://data.imf.org/en/datasets/IMF.STA:IRFCL)
-[![Live Demo](https://img.shields.io/badge/Live-Demo-success)](https://monitor-soberano-lac.streamlit.app)
+[![Live Demo](https://img.shields.io/badge/Live-Demo-success)](https://monitor-soberano-lac-r5v8qbtx7b923nwcaybrvn.streamlit.app)
 
 **Monitor de vulnerabilidad externa (IRFCL-FMI) para 16 países de América Latina y el Caribe.**
 
@@ -102,7 +102,7 @@ pip install -r requirements.txt
 streamlit run dashboards/app.py
 ```
 
-**Dashboard en vivo**: [https://monitor-soberano-lac.streamlit.app](https://monitor-soberano-lac.streamlit.app)
+**Dashboard en vivo**: [https://monitor-soberano-lac-r5v8qbtx7b923nwcaybrvn.streamlit.app](https://monitor-soberano-lac-r5v8qbtx7b923nwcaybrvn.streamlit.app)
 
 ## Fuentes y frecuencia
 
@@ -119,7 +119,7 @@ streamlit run dashboards/app.py
 
 ## Próximos pasos
 
-- [x] Dashboard interactivo deployado (Streamlit Cloud) — [ver demo](https://monitor-soberano-lac.streamlit.app)
+- [x] Dashboard interactivo deployado (Streamlit Cloud) — [ver demo](https://monitor-soberano-lac-r5v8qbtx7b923nwcaybrvn.streamlit.app)
 - [ ] Ampliar cobertura de validación de reservas locales a más países
 - [ ] Incorporar spreads de CDS y calificaciones crediticias
 - [ ] Backtesting sistemático contra episodios de crisis
