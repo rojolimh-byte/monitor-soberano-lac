@@ -15,19 +15,12 @@ DOLARIZADAS = ["Panama", "Ecuador", "El Salvador"]
 def cargar_datos():
     df = pd.read_csv(RUTA_RESULTADOS)
     df = df.rename(columns={"COUNTRY": "pais"})
-        # Normalizar nombres de columnas del CSV regenerado
-    df = df.rename(columns={
-        "COUNTRY": "pais",
-        "predeterminados_sobre_reservas": "ratio",
-        "drenajes_predeterminados_usd": "drenajes_usd",
-    })
+        # El CSV ya trae indice_vulnerabilidad calculado; solo normalizamos nombres
+    df = df.rename(columns={"COUNTRY": "pais", "predeterminados_sobre_reservas": "ratio"})
     df["pais"] = df["pais"].replace({
         "Panama": "Panamá", "Brazil": "Brasil", "Mexico": "México",
         "Peru": "Perú", "Dominican Republic": "República Dominicana",
     })
-    df["ratio"] = df["predeterminados_sobre_reservas"] if "predeterminados_sobre_reservas" in df.columns else df["drenajes_sobre_reservas"]
-    # CORREGIDO: ratio más NEGATIVO = más vulnerable = índice más alto
-    df["indice_vulnerabilidad"] = df["ratio"].rank(pct=True, ascending=False)
 
     df_serie = None
     if RUTA_SERIE.exists():
