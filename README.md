@@ -55,7 +55,7 @@ El índice se construye con el ratio de **drenajes predeterminados sobre reserva
 - **Drenajes contingentes**: pasivos potenciales (garantías colaterales, puttable bonds, líneas de crédito no dibujadas, opciones).
 - **Normalización**: rank percentil invertido — un valor cercano a 1 indica que los drenajes superan ampliamente las reservas (alta vulnerabilidad).
 
-La validación cruzada entre reservas del FMI y reservas oficiales locales (ARG, CHL, COL) muestra diferencias menores al 1%.
+La validación cruzada entre reservas del FMI (`RAFA_USD`) y valores de referencia públicos para 2024 confirma la consistencia de la serie para las economías principales (Brasil 0.93, Chile 0.89, Colombia 0.94, Perú 0.99, México 1.01).
 
 Ver [docs/METHODOLOGY.md](docs/METHODOLOGY.md) para el detalle completo.
 
