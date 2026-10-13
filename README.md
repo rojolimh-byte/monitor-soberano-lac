@@ -64,7 +64,7 @@ Los países de América Latina enfrentan vencimientos de deuda externa, derivado
 
 ## Metodología
 
-El índice se construye con el ratio de **drenajes predeterminados sobre reservas totales** del FMI (IRFCL):
+El índice se construye con el ratio de **drenajes netos predeterminados sobre reservas totales** del FMI (IRFCL):
 
 $$
 \text{ratio} = \frac{\text{drenajes netos predeterminados}}{\text{reservas oficiales totales}}
@@ -91,7 +91,7 @@ Se calculó el cociente entre las reservas IRFCL (`RAFA_USD`) y las reservas tot
 | Chile | 0.89 |
 | Argentina | 0.72 |
 
-Los cocientes por debajo de 1 reflejan diferencias de cobertura, valuación o fecha de corte entre la serie IRFCL y las cifras publicadas por cada banco central. Para Argentina (0.72), la brecha del 28% es la mayor de la muestra; el índice usa el denominador IRFCL por consistencia entre países, y la causa específica de la brecha está pendiente de verificación. El caso de México (1.01) refleja una diferencia de definición o fecha de corte entre fuentes y se documenta como tal en la metodología.
+Los cocientes por debajo de 1 reflejan diferencias de cobertura, valuación o fecha de corte entre la serie IRFCL y las cifras publicadas por cada banco central. Para Argentina (0.72), la brecha del 28% es la mayor de la muestra; el índice usa el denominador IRFCL por consistencia entre países, y la causa específica de la brecha está causa no determinada; ver docs/METHODOLOGY.md. El caso de México (1.01) refleja una diferencia de definición o fecha de corte entre fuentes y se documenta como tal en la metodología.
 
 ## Instalación y ejecución
 
@@ -128,3 +128,5 @@ streamlit run dashboards/app.py
 ## Licencia
 
 MIT
+
+- La validación de reservas cubre 6 de los 16 países de la muestra; el resto se basa exclusivamente en datos IRFCL sin verificación cruzada.

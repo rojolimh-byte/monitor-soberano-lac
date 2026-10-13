@@ -2,7 +2,7 @@
 
 ## Indicador central
 
-El monitor se basa en el ratio de **drenajes predeterminados sobre reservas internacionales** del template IRFCL del FMI:
+El monitor se basa en el ratio de **drenajes netos predeterminados sobre reservas internacionales** del template IRFCL del FMI:
 
 \[
 \text{ratio} = \frac{\text{drenajes netos predeterminados}}{\text{reservas oficiales totales}}
@@ -52,4 +52,6 @@ El cociente IRFCL/referencia para México (1.01) se ubica levemente por encima d
 
 **2026-10**: se regeneró el índice desde la serie consolidada `vulnerabilidad_reservas_latam_2025_completa.csv`, que incorpora observaciones actualizadas de IRFCL y una definición uniforme de drenajes netos predeterminados (entradas contractuales menos salidas en el horizonte de 12 meses). Como resultado, los ratios y el ranking cambiaron respecto de la versión anterior (por ejemplo, Panamá pasó de -1.04 a -2.47 y Argentina de -2.06 a -1.53). La versión vigente es la publicada en `resultados/indice_vulnerabilidad_integral_latam_2025.csv`.
 
-**Denominador del índice**: se usa la serie IRFCL `RAFA_USD` (reservas oficiales totales del FMI). Para Argentina, cuyo cociente de validación es 0.72, se mantiene el denominador IRFCL por consistencia metodológica entre países; la brecha frente a la referencia del BCRA se documenta en el README y su causa específica está pendiente de verificación.
+**Denominador del índice**: se usa la serie IRFCL `RAFA_USD` (reservas oficiales totales del FMI). Para Argentina, cuyo cociente de validación es 0.72, se mantiene el denominador IRFCL por consistencia metodológica entre países; la brecha frente a la referencia del BCRA se documenta en el README y su causa específica está causa no determinada; ver docs/METHODOLOGY.md.
+
+- La validación de reservas cubre 6 de los 16 países de la muestra; el resto se basa exclusivamente en datos IRFCL sin verificación cruzada.
