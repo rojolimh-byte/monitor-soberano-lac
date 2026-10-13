@@ -3,6 +3,7 @@
 [![Python](https://img.shields.io/badge/Python-3.10+-blue)](https://www.python.org)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 [![Data: IMF IRFCL](https://img.shields.io/badge/Data-IMF%20IRFCL-blueviolet)](https://data.imf.org/en/datasets/IMF.STA:IRFCL)
+[![Live Demo](https://img.shields.io/badge/Live-Demo-success)](https://monitor-soberano-lac.streamlit.app)
 [![Countries: 16 LAC](https://img.shields.io/badge/Countries-16%20LAC-orange)]()
 
 **Monitor de vulnerabilidad externa para 16 países de América Latina y el Caribe**, basado en el template IRFCL del FMI (International Reserves and Foreign Currency Liquidity).
