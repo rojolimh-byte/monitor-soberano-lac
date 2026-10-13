@@ -37,23 +37,24 @@ Los países de América Latina enfrentan vencimientos de deuda externa, derivado
 
 ## Resultado principal (2024)
 
-| Ranking | País | Índice (relativo) | Ratio crudo drenajes/reservas |
+| Ranking | País | Índice (relativo) | Ratio crudo drenajes netos / reservas |
 |---|---|---|---|
-| 1 | Argentina | 1.00 | -2.06 |
-| 2 | Ecuador | 0.93 | -1.11 |
-| 3 | Panamá | 0.87 | -1.04 |
-| 4 | El Salvador | 0.80 | -0.86 |
-| 5 | Rep. Dominicana | 0.73 | -0.43 |
-| 6 | Costa Rica | 0.67 | -0.40 |
-| 7 | Uruguay | 0.60 | -0.18 |
-| 8 | Chile | 0.53 | -0.17 |
-| 9 | Honduras | 0.47 | -0.14 |
-| 10 | Nicaragua | 0.40 | -0.14 |
-| 11 | Colombia | 0.33 | -0.13 |
-| 12 | Perú | 0.27 | -0.06 |
-| 13 | Guatemala | 0.20 | -0.05 |
-| 14 | México | 0.13 | -0.04 |
-| 15 | Brasil | 0.07 | -0.01 |
+| 1 | Panama | 1.00 | -2.47 |
+| 2 | Argentina | 0.94 | -1.53 |
+| 3 | Ecuador | 0.88 | -1.31 |
+| 4 | El Salvador | 0.81 | -0.55 |
+| 5 | Dominican Republic | 0.75 | -0.51 |
+| 6 | Paraguay | 0.69 | -0.28 |
+| 7 | Uruguay | 0.62 | -0.22 |
+| 8 | Costa Rica | 0.56 | -0.19 |
+| 9 | Chile | 0.50 | -0.10 |
+| 10 | Nicaragua | 0.44 | -0.10 |
+| 11 | Colombia | 0.38 | -0.10 |
+| 12 | Honduras | 0.31 | -0.09 |
+| 13 | Guatemala | 0.25 | -0.06 |
+| 14 | Peru | 0.19 | -0.05 |
+| 15 | Mexico | 0.12 | -0.04 |
+| 16 | Brazil | 0.06 | 0.04 |
 
 > **Nota metodológica**: el índice es un **ranking relativo dentro de la muestra de 16 países**, no una medida absoluta de vulnerabilidad. Un índice de 0.07 (Brasil) indica el mejor desempeño de la muestra, **no ausencia de vulnerabilidad**. Para la magnitud real, consultar el ratio crudo: en Brasil los drenajes netos representan solo -1.4% de las reservas, mientras que en Argentina superan 2 veces las reservas disponibles.
 
@@ -95,7 +96,7 @@ Los cocientes por debajo de 1 son coherentes con diferencias de cobertura entre 
 ## Instalación y ejecución
 
 ```bash
-git clone [https://github.com/rojolimh-byte/monitor-soberano-lac.git](https://github.com/rojolimh-byte/monitor-soberano-lac.git)
+git clone https://github.com/rojolimh-byte/monitor-soberano-lac.git
 cd monitor-soberano-lac
 pip install -r requirements.txt
 streamlit run dashboards/app.py
