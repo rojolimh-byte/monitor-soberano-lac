@@ -28,7 +28,7 @@ Los países de América Latina enfrentan vencimientos de deuda externa, derivado
 |---|---|---|---|
 | Vulnerabilidad externa | Drenajes predeterminados y contingentes sobre reservas | IMF IRFCL | 16 países |
 | Composición del riesgo | Drenajes por instrumento: deuda, derivados, repos, garantías, líneas de crédito, puttable bonds | IMF IRFCL | 16 países |
-| Reservas oficiales | Reservas internacionales (validación cruzada) | BCRA, BCH, BanRep | ARG, CHL, COL |
+| Reservas oficiales | Reservas internacionales (validación cruzada) | BCRA, BCCh, BanRep | ARG, CHL, COL |
 | Contexto macro | Deuda del gobierno general (% PIB) | IMF WEO | 5 países |
 
 **Países**: Argentina, Brasil, Chile, Colombia, Costa Rica, Ecuador, El Salvador, Guatemala, Honduras, México, Nicaragua, Panamá, Paraguay, Perú, República Dominicana y Uruguay.
@@ -55,7 +55,7 @@ El índice se construye con el ratio de **drenajes predeterminados sobre reserva
 - **Drenajes contingentes**: pasivos potenciales (garantías colaterales, puttable bonds, líneas de crédito no dibujadas, opciones).
 - **Normalización**: rank percentil invertido — un valor cercano a 1 indica que los drenajes superan ampliamente las reservas (alta vulnerabilidad).
 
-La validación cruzada entre reservas del FMI (`RAFA_USD`) y valores de referencia públicos para 2024 confirma la consistencia de la serie para las economías principales (Brasil 0.93, Chile 0.89, Colombia 0.94, Perú 0.99, México 1.01).
+**Validación de reservas (2024)**: se calculó el cociente entre las reservas IRFCL (`RAFA_USD`) y las reservas totales publicadas por cada banco central (fuente de referencia). Para las economías principales, el cociente se ubica entre 0.89 y 1.01 (Brasil 0.93, Chile 0.89, Colombia 0.94, Perú 0.99, México 1.01), coherente con que la serie IRFCL utilizada en la serie histórica puede excluir oro y DEG según el reporte del país. El caso de México (1.01) refleja una diferencia de definición o fecha de corte entre fuentes y se documenta como tal.
 
 Ver [docs/METHODOLOGY.md](docs/METHODOLOGY.md) para el detalle completo.
 
@@ -74,7 +74,7 @@ streamlit run app.py
 
 - **IMF IRFCL**: actualización mensual/trimestral según país. [https://data.imf.org/en/datasets/IMF.STA:IRFCL](https://data.imf.org/en/datasets/IMF.STA:IRFCL)
 - **IMF WEO**: actualización semestral (abril/octubre).
-- **Bancos centrales** (ARG, CHL, COL): frecuencia diaria/mensual.
+- **Bancos centrales** (BCRA Argentina, BCCh Chile, BanRep Colombia, y reservas publicadas del resto de países para validación): frecuencia diaria/mensual.
 
 ## Limitaciones
 
