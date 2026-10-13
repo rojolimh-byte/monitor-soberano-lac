@@ -62,7 +62,7 @@ st.plotly_chart(fig_rank, use_container_width=True)
 st.info("**Nota**: el índice es un ranking relativo; ratio más negativo (drenajes que superan reservas) = mayor vulnerabilidad.")
 
 st.subheader("Ratio crudo: drenajes / reservas")
-df_ratio = df_f[["pais", "ratio", "reservas_usd", "drenajes_usd", "indice_vulnerabilidad"]].sort_values("ratio")
+df_ratio = df_f[["pais", "ratio", "indice_vulnerabilidad"]].sort_values("ratio")
 st.dataframe(df_ratio.style.background_gradient(subset=["ratio"], cmap="RdYlGn"), use_container_width=True, hide_index=True)
 
 if df_serie is not None and not df_serie.empty:
