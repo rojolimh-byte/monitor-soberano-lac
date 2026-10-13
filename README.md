@@ -39,11 +39,11 @@ Los países de América Latina enfrentan vencimientos de deuda externa, derivado
 
 | Ranking | País | Índice (relativo) | Ratio crudo drenajes netos / reservas |
 |---|---|---|---|
-| 1 | Panama | 1.00 | -2.47 |
+| 1 | Panamá | 1.00 | -2.47 |
 | 2 | Argentina | 0.94 | -1.53 |
 | 3 | Ecuador | 0.88 | -1.31 |
 | 4 | El Salvador | 0.81 | -0.55 |
-| 5 | Dominican Republic | 0.75 | -0.51 |
+| 5 | República Dominicana | 0.75 | -0.51 |
 | 6 | Paraguay | 0.69 | -0.28 |
 | 7 | Uruguay | 0.62 | -0.22 |
 | 8 | Costa Rica | 0.56 | -0.19 |
@@ -52,11 +52,11 @@ Los países de América Latina enfrentan vencimientos de deuda externa, derivado
 | 11 | Colombia | 0.38 | -0.10 |
 | 12 | Honduras | 0.31 | -0.09 |
 | 13 | Guatemala | 0.25 | -0.06 |
-| 14 | Peru | 0.19 | -0.05 |
-| 15 | Mexico | 0.12 | -0.04 |
-| 16 | Brazil | 0.06 | 0.04 |
+| 14 | Perú | 0.19 | -0.05 |
+| 15 | México | 0.12 | -0.04 |
+| 16 | Brasil | 0.06 | 0.04 |
 
-> **Nota metodológica**: el índice es un **ranking relativo dentro de la muestra de 16 países**, no una medida absoluta de vulnerabilidad. Un índice de 0.07 (Brasil) indica el mejor desempeño de la muestra, **no ausencia de vulnerabilidad**. Para la magnitud real, consultar el ratio crudo: en Brasil los drenajes netos representan solo -1.4% de las reservas, mientras que en Argentina superan 2 veces las reservas disponibles.
+> **Nota metodológica**: el índice es un **ranking relativo dentro de la muestra de 16 países**, no una medida absoluta de vulnerabilidad. Un índice de 0.06 (Brasil) indica el mejor desempeño de la muestra, **no ausencia de vulnerabilidad**. Para la magnitud real, consultar el ratio crudo: Brasil muestra un ratio ligeramente positivo (+0.04), reflejo de entradas netas contractuales en el horizonte de 12 meses, mientras que en Panamá los drenajes netos equivalen a 2.5 veces sus reservas.
 
 ## Nota sobre economías dolarizadas
 
