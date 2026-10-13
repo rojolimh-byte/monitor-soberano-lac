@@ -102,7 +102,7 @@ pip install -r requirements.txt
 streamlit run dashboards/app.py
 ```
 
-**Dashboard en vivo**: [https://monitor-soberano-lac.streamlit.app](https://monitor-soberano-lac.streamlit.app)
+**Dashboard en vivo**: [https://monitor-soberano-lac-r5v8qbtx7b923nwcaybrvn.streamlit.app/](https://monitor-soberano-lac-r5v8qbtx7b923nwcaybrvn.streamlit.app/)
 
 ## Fuentes y frecuencia
 
@@ -120,7 +120,7 @@ streamlit run dashboards/app.py
 
 ## Próximos pasos
 
-- [x] Dashboard interactivo deployado (Streamlit Cloud) — [ver demo](https://monitor-soberano-lac.streamlit.app)
+- [x] Dashboard interactivo deployado (Streamlit Cloud) — [ver demo](https://monitor-soberano-lac-r5v8qbtx7b923nwcaybrvn.streamlit.app/)
 - [ ] Ampliar cobertura de validación de reservas locales a más países
 - [ ] Incorporar spreads de CDS y calificaciones crediticias
 - [ ] Backtesting sistemático contra episodios de crisis
