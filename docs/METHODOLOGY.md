@@ -41,3 +41,8 @@ Panamá, Ecuador y El Salvador no emiten moneda propia. Sus reservas cumplen una
 - Mide vulnerabilidad de stock; no incorpora flujos futuros de ingresos de divisas (exportaciones, IED, remesas).
 - La cobertura histórica varía por país (Ecuador y Panamá tienen menos años disponibles).
 - No es asesoría de inversión.
+
+
+## Nota sobre México (validación 2024)
+
+El cociente IRFCL/referencia para México (1.01) se ubica levemente por encima de 1, a diferencia del resto de los países validados. Esto refleja una diferencia de definición o fecha de corte entre la serie IRFCL y las reservas totales publicadas por Banxico, y se documenta como tal para transparencia.
