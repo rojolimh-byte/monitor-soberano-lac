@@ -84,7 +84,7 @@ streamlit run app.py
 
 ## Próximos pasos
 
-- [ ] Dashboard interactivo deployado (Streamlit Cloud)
+- [x] Dashboard interactivo deployado (Streamlit Cloud) — [ver demo](https://monitor-soberano-lac.streamlit.app)
 - [ ] Ampliar cobertura de reservas locales a más países
 - [ ] Incorporar spreads de CDS y calificaciones crediticias
 - [ ] Backtesting sistemático contra episodios de crisis
