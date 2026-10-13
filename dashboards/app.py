@@ -15,7 +15,7 @@ DOLARIZADAS = ["Panama", "Ecuador", "El Salvador"]
 def cargar_datos():
     df = pd.read_csv(RUTA_RESULTADOS)
     df = df.rename(columns={"COUNTRY": "pais"})
-    df["ratio"] = df["drenajes_sobre_reservas"]
+    df["ratio"] = df["predeterminados_sobre_reservas"] if "predeterminados_sobre_reservas" in df.columns else df["drenajes_sobre_reservas"]
     # CORREGIDO: ratio más NEGATIVO = más vulnerable = índice más alto
     df["indice_vulnerabilidad"] = df["ratio"].rank(pct=True, ascending=False)
 
