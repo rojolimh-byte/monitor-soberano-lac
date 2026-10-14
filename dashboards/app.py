@@ -1,96 +1,137 @@
-
 import streamlit as st
 import pandas as pd
 import plotly.express as px
 from pathlib import Path
+import sys
+
+ROOT = Path(__file__).resolve().parent.parent
+sys.path.insert(0, str(ROOT / "src"))
+
+from index import classify_regime, classify_vulnerability, definition_range
 
 st.set_page_config(page_title="Monitor Soberano LAC", page_icon="🌎", layout="wide")
 
-ROOT = Path(__file__).resolve().parent.parent
 RUTA_RESULTADOS = ROOT / "resultados" / "indice_vulnerabilidad_integral_latam_2025.csv"
 RUTA_SERIE = ROOT / "resultados" / "serie_tiempo_vulnerabilidad_continua.csv"
-DOLARIZADAS = ["Panama", "Ecuador", "El Salvador"]
+DOLARIZADAS = ["Panamá", "Ecuador", "El Salvador"]
+
 
 @st.cache_data
 def cargar_datos():
     df = pd.read_csv(RUTA_RESULTADOS)
-    df = df.rename(columns={"COUNTRY": "pais"})
-        # El CSV ya trae indice_vulnerabilidad calculado; solo normalizamos nombres
-    df = df.rename(columns={"COUNTRY": "pais", "predeterminados_sobre_reservas": "ratio"})
+    df = df.rename(columns={
+        "COUNTRY": "pais",
+        "predeterminados_sobre_reservas": "ratio",
+    })
     df["pais"] = df["pais"].replace({
         "Panama": "Panamá", "Brazil": "Brasil", "Mexico": "México",
         "Peru": "Perú", "Dominican Republic": "República Dominicana",
     })
+    df["regimen"] = df["pais"].apply(classify_regime)
+    df["clasificacion_absoluta"] = df.apply(
+        lambda row: classify_vulnerability(row["ratio"], row["pais"]), axis=1
+    )
 
     df_serie = None
     if RUTA_SERIE.exists():
         ds = pd.read_csv(RUTA_SERIE)
         ds = ds[(ds["anio"] >= 2010) & (ds["reservas"] > 100)].copy()
-        # La serie ya viene con el índice corregido; si no, recalcularlo igual
         if "indice_vulnerabilidad" not in ds.columns or ds["indice_vulnerabilidad"].isna().all():
-            ds["indice_vulnerabilidad"] = ds.groupby("anio")["ratio_drenaje_reservas"].rank(pct=True, ascending=False)
+            ds["indice_vulnerabilidad"] = ds.groupby("anio")["ratio_drenaje_reservas"].rank(
+                pct=True, ascending=False
+            )
         df_serie = ds
     return df, df_serie
+
 
 df, df_serie = cargar_datos()
 
 st.title("🌎 Monitor Soberano LAC")
-st.caption("Vulnerabilidad externa (drenajes IRFCL / reservas) para 16 países de América Latina y el Caribe · Datos a 2025 · Fuente: IMF IRFCL")
-st.warning("⚠️ Herramienta de análisis. No constituye asesoría de inversión.")
+st.caption(
+    "Vulnerabilidad externa predeterminada (IRFCL / reservas) para 16 países de América Latina "
+    "y el Caribe · Datos a 2024 · Fuente: IMF IRFCL"
+)
+st.warning("⚠️ Herramienta de análisis. No constituye asesoría de inversión ni una predicción de crisis.")
+
+st.tabs([
+    "📊 Resumen",
+    "🏦 Emisoras",
+    "💵 Dolarizadas",
+    "🔍 Reservas",
+    "🧪 Backtesting",
+    "📖 Metodología",
+])
 
 st.sidebar.header("Filtros")
-paises = st.sidebar.multiselect("Países", options=sorted(df["pais"].unique()), default=sorted(df["pais"].unique()))
-umbral = st.sidebar.slider("Umbral de alerta (índice)", 0.0, 1.0, 0.7, 0.05)
+paises = st.sidebar.multiselect(
+    "Países", options=sorted(df["pais"].unique()), default=sorted(df["pais"].unique())
+)
 df_f = df[df["pais"].isin(paises)].copy()
 
-col1, col2, col3, col4 = st.columns(4)
-col1.metric("Países monitoreados", len(df_f))
-col2.metric("Países en alerta", int((df_f["indice_vulnerabilidad"] >= umbral).sum()))
-col3.metric("Mayor vulnerabilidad", df_f.loc[df_f["indice_vulnerabilidad"].idxmax(), "pais"])
-col4.metric("Menor vulnerabilidad", df_f.loc[df_f["indice_vulnerabilidad"].idxmin(), "pais"])
+st.subheader("Clasificación absoluta")
+st.dataframe(
+    df_f[["pais", "ratio", "clasificacion_absoluta", "regimen", "indice_vulnerabilidad"]]
+    .sort_values("ratio")
+    .style.background_gradient(subset=["ratio"], cmap="RdYlGn"),
+    use_container_width=True,
+    hide_index=True,
+)
 
-st.divider()
-st.subheader("Ranking de vulnerabilidad externa (2025)")
-df_rank = df_f.sort_values("indice_vulnerabilidad", ascending=True)
-fig_rank = px.bar(df_rank, x="indice_vulnerabilidad", y="pais", orientation="h",
-                  color="indice_vulnerabilidad", color_continuous_scale="RdYlGn_r",
-                  range_color=[0, 1],
-                  labels={"indice_vulnerabilidad": "Índice (0-1, relativo)", "pais": ""},
-                  title="Índice de vulnerabilidad — ranking relativo")
-fig_rank.update_layout(height=600, showlegend=False)
-st.plotly_chart(fig_rank, use_container_width=True)
-st.info("**Nota**: el índice es un ranking relativo; ratio más negativo (drenajes que superan reservas) = mayor vulnerabilidad.")
+st.subheader("Ratio crudo")
+fig = px.bar(
+    df_f.sort_values("ratio"),
+    x="ratio",
+    y="pais",
+    orientation="h",
+    color="clasificacion_absoluta",
+    labels={"ratio": "Saldo neto predeterminado / reservas", "pais": ""},
+    title="Posición externa predeterminada (2024)",
+)
+fig.update_layout(height=600)
+st.plotly_chart(fig, use_container_width=True)
 
-st.subheader("Ratio crudo: drenajes / reservas")
-df_ratio = df_f[["pais", "ratio", "indice_vulnerabilidad"]].sort_values("ratio")
-st.dataframe(df_ratio.style.background_gradient(subset=["ratio"], cmap="RdYlGn"), use_container_width=True, hide_index=True)
+st.info(
+    "Un valor negativo implica salidas netas predeterminadas y presión potencial sobre reservas. "
+    "Un valor positivo implica entradas netas contractuales."
+)
 
 if df_serie is not None and not df_serie.empty:
-    st.subheader("Evolución del índice (2010-2024)")
+    st.subheader("Evolución 2010-2024")
     paises_disponibles = sorted(df_serie["pais"].unique())
-    defaults = [p for p in ["Argentina", "Brasil", "Chile", "Ecuador", "México"] if p in paises_disponibles]
-    paises_serie = st.multiselect("Países a comparar", options=paises_disponibles, default=defaults)
-    df_s = df_serie[df_serie["pais"].isin(paises_serie)].sort_values(["pais", "anio"])
+    seleccion = st.multiselect(
+        "Países",
+        options=paises_disponibles,
+        default=[p for p in ["Argentina", "Brasil", "Chile", "Ecuador", "México"] if p in paises_disponibles],
+    )
+    df_s = df_serie[df_serie["pais"].isin(seleccion)].sort_values(["pais", "anio"])
     if not df_s.empty:
-        fig_serie = px.line(df_s, x="anio", y="indice_vulnerabilidad", color="pais", markers=True,
-                            labels={"indice_vulnerabilidad": "Índice", "anio": "Año"},
-                            title="Índice de vulnerabilidad en el tiempo")
-        fig_serie.update_layout(height=450, yaxis_range=[0, 1.05])
+        fig_serie = px.line(
+            df_s,
+            x="anio",
+            y="ratio_drenaje_reservas",
+            color="pais",
+            markers=True,
+            labels={
+                "ratio_drenaje_reservas": "Saldo neto / reservas",
+                "anio": "Año",
+            },
+        )
         st.plotly_chart(fig_serie, use_container_width=True)
-    else:
-        st.warning("No hay datos para los países seleccionados.")
-else:
-    st.info("Serie de tiempo no disponible.")
 
 st.divider()
-st.subheader("Nota sobre economías dolarizadas")
-st.markdown(f"**{', '.join(DOLARIZADAS)}** no emiten moneda propia. No tienen prestamista de última instancia en moneda propia, por lo que un ratio drenajes/reservas alto indica vulnerabilidad **más severa**, no menor.")
+st.markdown(
+    "**Panamá, Ecuador y El Salvador** no tienen prestamista de última instancia en moneda propia. "
+    "Sus umbrales son más estrictos y no deben compararse directamente con los de economías emisoras."
+)
 
 with st.expander("📖 Metodología"):
-    st.markdown("""
-- **Drenajes predeterminados**: obligaciones en divisa con vencimiento cierto en los próximos 12 meses.
-- **Ratio**: drenajes netos / reservas. Negativo = drenajes superan reservas.
-- **Índice**: rank percentil del ratio por año — el ratio más negativo recibe índice 1.0 (mayor vulnerabilidad).
-- **Filtro serie**: se excluyen observaciones con reservas < 100 M USD.
-    """)
-
+    st.markdown(
+        """
+- **Saldo neto predeterminado**: entradas contractuales menos salidas contractuales en 12 meses.
+- **Ratio**: saldo neto predeterminado / reservas IRFCL.
+- **Negativo**: salidas netas; mayor vulnerabilidad.
+- **Positivo**: entradas netas; holgura.
+- **Umbrales emisoras**: 0 a -1 moderada; -1 a -2 alta; menor o igual a -2 crítica.
+- **Umbrales dolarizadas**: -0.5 a -1 moderada; -1 a -2 alta; menor o igual a -2 emergencia.
+        """
+    )
