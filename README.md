@@ -21,10 +21,11 @@ El monitor estima la posición externa predeterminada de un país en los próxim
 R = \frac{\text{Entradas contractuales} - \text{Salidas contractuales}}{\text{Reservas oficiales totales}}
 \]
 
-- `RAPFA_USD` del IRFCL se interpreta como el **saldo neto predeterminado**: entradas contractuales menos salidas contractuales en divisa.
-- `RAFA_USD` corresponde a reservas oficiales totales.
-- Un valor **negativo** implica que las salidas predeterminadas superan las entradas: hay presión potencial sobre reservas.
-- Un valor **positivo** implica entradas netas contractuales: holgura de liquidez externa.
+- `RAPFA_USD` del IRFCL mide los drenajes netos predeterminados sobre activos en moneda extranjera. En la convención del IRFCL, las entradas contractuales se registran con signo positivo y las salidas contractuales con signo negativo.
+- `RAFA_USD` corresponde a las reservas oficiales totales.
+- Un valor **negativo** implica que las salidas predeterminadas superan las entradas: existe presión potencial sobre las reservas.
+- Un valor **positivo** implica entradas netas contractuales: existe holgura de liquidez externa.
+- Un valor más negativo implica mayor vulnerabilidad de liquidez externa.
 
 ## Umbrales absolutos
 
@@ -78,6 +79,25 @@ No se comparan umbrales entre grupos: un mismo valor de \(R\) tiene implicacione
 
 El ranking relativo se conserva como referencia, pero la métrica central es el ratio crudo y su clasificación absoluta.
 
+## Resultados del backtesting
+
+El backtesting usa la serie histórica disponible: 278 observaciones país-año hasta 2023, incluidos dos episodios positivos —Argentina 2000, asociado a la crisis de 2001, y Argentina 2017, asociado a la crisis de 2018—.
+
+Una alerta se define como \(R \le \text{umbral}\).
+
+| Umbral | Crisis anticipadas | Recall | Precisión | Falsos positivos | Tasa de falsos positivos |
+|---:|---:|---:|---:|---:|---:|
+| -3.0 | 0 de 2 | 0% | 0% | 1 | 0.4% |
+| -2.0 | 0 de 2 | 0% | 0% | 2 | 0.7% |
+| -1.5 | 0 de 2 | 0% | 0% | 4 | 1.4% |
+| -1.0 | 2 de 2 | 100% | 18.2% | 9 | 3.3% |
+| -0.5 | 2 de 2 | 100% | 5.7% | 33 | 12.0% |
+| 0.0 | 2 de 2 | 100% | 0.7% | 270 | 97.8% |
+
+**AUC aproximado: 0.975.** Este resultado es ilustrativo: la muestra contiene solo dos episodios positivos y no se ha calculado un intervalo bootstrap.
+
+**Conclusión:** con un umbral de -1.0, el indicador anticipó 2 de 2 crisis disponibles, con 9 falsos positivos. Esto respalda tentativamente el umbral de vulnerabilidad alta, pero la muestra es demasiado pequeña para validar definitivamente los umbrales de -1.0 y -2.0.
+
 ## Reservas: doble reporte
 
 Mientras la conciliación no esté completa, el proyecto reporta:
@@ -87,6 +107,16 @@ Mientras la conciliación no esté completa, el proyecto reporta:
 - **Rango por definición de reservas**: resultado de usar ambas denominaciones.
 
 La conciliación se documenta país por país en [`docs/RESERVES_RECONCILIATION.md`](docs/RESERVES_RECONCILIATION.md).
+
+## Estado de conciliación de reservas
+
+| Estado | Países | Detalle |
+|---|---:|---|
+| Conciliado dentro de ±2% | 2 | Perú (0.99), México (1.01) |
+| Brecha documentada | 4 | Colombia (0.94), Brasil (0.93), Chile (0.89), Argentina (0.72) |
+| Sin validación local | 10 | Resto de la muestra |
+
+Argentina mantiene la brecha más grande: 28%. Hasta completar la conciliación, debe mostrar solo el ratio IRFCL con una advertencia visible en el dashboard.
 
 ## Incertidumbre y escenarios
 
@@ -99,18 +129,17 @@ Cada país debe reportar:
 
 Estos rangos no deben presentarse como intervalos de confianza estadísticos: son escenarios de sensibilidad basados en definiciones, revisiones y supuestos.
 
-## Backtesting
+## Hoja de ruta
 
-El backtesting se limita a países del continente americano.
+| Prioridad | Módulo | Entregable |
+|---:|---|---|
+| 1 | Conciliación de reservas | Completar la validación local de los 16 países y documentar cada brecha |
+| 2 | Flujos externos | Añadir exportaciones/PIB, concentración de exportaciones, IED/PIB y remesas/PIB como contexto |
+| 3 | CDS y calificaciones | Incorporar CDS a 5 años y calificaciones en moneda extranjera como validadores de mercado |
+| 4 | Alertas automáticas | Automatizar IRFCL y reservas locales; generar alertas al cruzar umbrales |
+| 5 | Validación externa | Comparar con EMBI y otros indicadores de vulnerabilidad; someter la metodología a revisión externa |
 
-Episodios disponibles en la serie histórica actual:
-
-- Argentina 2001.
-- Argentina 2018.
-
-La evaluación utiliza el año previo a cada episodio —Argentina 2000 y Argentina 2017— y todos los demás países y años disponibles como observaciones de control.
-
-La evaluación reporta verdaderos positivos, falsos positivos, falsos negativos, recall, precisión y tasa de falsos positivos para distintos umbrales. Con solo dos episodios positivos, las métricas son ilustrativas y no permiten inferir un AUC robusto.
+Los flujos y los indicadores de mercado no deben modificar el ratio base: sirven para contextualizar la vulnerabilidad de stock y detectar divergencias entre fundamentos y percepción de mercado.
 
 ## Instalación y ejecución
 
