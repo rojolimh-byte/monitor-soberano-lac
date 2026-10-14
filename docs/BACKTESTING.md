@@ -1,5 +1,11 @@
 # Backtesting
 
+## Alcance y advertencia
+
+El backtesting disponible es **preliminar** y no constituye una validación empírica del monitor.
+
+La muestra contiene solo dos episodios positivos, ambos de Argentina. No se calcula ni se presenta un AUC.
+
 ## Alcance geográfico
 
 El backtesting se limita a países del continente americano.
@@ -46,6 +52,11 @@ donde \(R\) es el saldo neto predeterminado sobre reservas. Valores más negativ
 
 ## Limitación crítica
 
-La muestra actual contiene solo dos episodios positivos. Por ello, las métricas son ilustrativas y no permiten inferir un AUC robusto ni afirmar que el indicador predice crisis.
+La muestra actual contiene solo dos episodios positivos, ambos de Argentina. Por ello:
 
-Para ampliar el backtesting hay que incorporar la serie histórica de Ecuador antes de 1999 y controles sin crisis adicionales.
+- No se calcula ni se presenta un AUC.
+- Las métricas son ilustrativas.
+- No se puede afirmar que el indicador anticipe crisis.
+- No se pueden validar empíricamente los umbrales de -1.0 ni -2.0.
+
+Para ampliar el backtesting hay que incorporar la serie histórica de Ecuador antes de 1999, episodios de crisis en otros países americanos y controles sin crisis adicionales.
