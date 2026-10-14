@@ -18,14 +18,21 @@
 El monitor estima la posición externa predeterminada de un país en los próximos 12 meses:
 
 \[
-R = \frac{\text{Entradas contractuales} - \text{Salidas contractuales}}{\text{Reservas oficiales totales}}
+R =
+\frac{\text{Saldo neto predeterminado}}
+{\text{Reservas oficiales totales}}
 \]
 
-- `RAPFA_USD` del IRFCL mide los drenajes netos predeterminados sobre activos en moneda extranjera. En la convención del IRFCL, las entradas contractuales se registran con signo positivo y las salidas contractuales con signo negativo.
-- `RAFA_USD` corresponde a las reservas oficiales totales.
-- Un valor **negativo** implica que las salidas predeterminadas superan las entradas: existe presión potencial sobre las reservas.
-- Un valor **positivo** implica entradas netas contractuales: existe holgura de liquidez externa.
-- Un valor más negativo implica mayor vulnerabilidad de liquidez externa.
+Donde:
+
+- **Saldo neto predeterminado**: entradas contractuales menos salidas contractuales en moneda extranjera (`RAPFA_USD`).
+- **Reservas oficiales totales**: reservas oficiales totales (`RAFA_USD`).
+
+Un valor negativo implica que las salidas predeterminadas superan las entradas: existe presión potencial sobre las reservas.
+
+Un valor positivo implica entradas netas contractuales: existe holgura de liquidez externa.
+
+Un valor más negativo implica mayor vulnerabilidad de liquidez externa.
 
 ## Umbrales absolutos
 
