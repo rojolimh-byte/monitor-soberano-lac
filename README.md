@@ -11,87 +11,106 @@
 
 > **Datos a: 2024** (último año con observación anual completa y validada en IMF IRFCL al momento de la construcción del índice).
 
-> ⚠️ **Aviso**: herramienta informativa; no constituye asesoría de inversión.
+> ⚠️ **Aviso**: herramienta informativa; no constituye asesoría de inversión ni una predicción de crisis.
 
-## El problema
+## Qué mide
 
-Los países de América Latina enfrentan vencimientos de deuda externa, derivados y otros compromisos en moneda extranjera que pueden drenar sus reservas internacionales. Cuando esos drenajes superan las reservas disponibles, el país queda expuesto a crisis de balanza de pagos, devaluaciones y pérdida de acceso a mercados.
+El monitor estima la posición externa predeterminada de un país en los próximos 12 meses:
 
-**Monitor Soberano LAC** responde una pregunta concreta: *¿qué países de la región no tienen reservas suficientes para cubrir sus compromisos externos de corto plazo?*
+\[
+R = \frac{\text{Entradas contractuales} - \text{Salidas contractuales}}{\text{Reservas oficiales totales}}
+\]
 
-## Para quién
+- `RAPFA_USD` del IRFCL se interpreta como el **saldo neto predeterminado**: entradas contractuales menos salidas contractuales en divisa.
+- `RAFA_USD` corresponde a reservas oficiales totales.
+- Un valor **negativo** implica que las salidas predeterminadas superan las entradas: hay presión potencial sobre reservas.
+- Un valor **positivo** implica entradas netas contractuales: holgura de liquidez externa.
 
-- **Analistas de riesgo soberano** que necesitan una lectura rápida de exposición externa.
-- **Investigadores y hacedores de política pública** que monitorean vulnerabilidad externa regional.
+## Umbrales absolutos
 
-## Qué cubre
+El indicador principal ya no se presenta solo como ranking relativo. Se clasifica con umbrales absolutos:
 
-| Dimensión | Indicador | Fuente | Cobertura |
-|---|---|---|---|
-| Vulnerabilidad externa | Drenajes netos predeterminados sobre reservas totales | IMF IRFCL | 16 países |
-| Composición del riesgo | Drenajes por instrumento: deuda, derivados, repos, garantías, líneas de crédito, puttable bonds | IMF IRFCL | 16 países |
-| Reservas oficiales | Validación cruzada de reservas totales | Bancos centrales (BCRA, BCCh, BanRep, y reservas publicadas de BRA, PER, MEX) | 6 países (2024) |
-| Contexto macro | Deuda del gobierno general (% PIB) | IMF WEO | 5 países |
+| Ratio \(R\) | Clasificación | Lectura |
+|---:|---|---|
+| \(R \ge 0\) | Holgura | Entradas netas predeterminadas |
+| \(-1.0 < R < 0\) | Vulnerabilidad moderada | Salidas netas inferiores a las reservas |
+| \(-2.0 < R \le -1.0\) | Vulnerabilidad alta | Salidas netas entre 1 y 2 veces las reservas |
+| \(R \le -2.0\) | Vulnerabilidad crítica | Salidas netas iguales o superiores a 2 veces las reservas |
 
-**Países**: Argentina, Brasil, Chile, Colombia, Costa Rica, Ecuador, El Salvador, Guatemala, Honduras, México, Nicaragua, Panamá, Paraguay, Perú, República Dominicana y Uruguay.
+Para economías dolarizadas —Panamá, Ecuador y El Salvador— se usan umbrales más estrictos porque no existe prestamista de última instancia en moneda propia:
+
+| Ratio \(R\) | Clasificación dolarizada |
+|---:|---|
+| \(R \ge -0.5\) | Holgura o vulnerabilidad baja |
+| \(-1.0 < R \le -0.5\) | Vulnerabilidad moderada |
+| \(-2.0 < R \le -1.0\) | Vulnerabilidad alta |
+| \(R \le -2.0\) | Emergencia |
+
+## Segmentación monetaria
+
+El dashboard y los análisis deben separar:
+
+- **Emisoras**: países con banco central emisor y capacidad de actuar como prestamista de última instancia.
+- **Dolarizadas**: Panamá, Ecuador y El Salvador.
+
+No se comparan umbrales entre grupos: un mismo valor de \(R\) tiene implicaciones distintas según el régimen monetario.
 
 ## Resultado principal (2024)
 
-| Ranking | País | Índice (relativo) | Ratio crudo drenajes netos / reservas |
-|---|---|---|---|
-| 1 | Panamá | 1.00 | -2.47 |
-| 2 | Argentina | 0.94 | -1.53 |
-| 3 | Ecuador | 0.88 | -1.31 |
-| 4 | El Salvador | 0.81 | -0.55 |
-| 5 | República Dominicana | 0.75 | -0.51 |
-| 6 | Paraguay | 0.69 | -0.28 |
-| 7 | Uruguay | 0.62 | -0.22 |
-| 8 | Costa Rica | 0.56 | -0.19 |
-| 9 | Chile | 0.50 | -0.10 |
-| 10 | Nicaragua | 0.44 | -0.10 |
-| 11 | Colombia | 0.38 | -0.10 |
-| 12 | Honduras | 0.31 | -0.09 |
-| 13 | Guatemala | 0.25 | -0.06 |
-| 14 | Perú | 0.19 | -0.05 |
-| 15 | México | 0.12 | -0.04 |
-| 16 | Brasil | 0.06 | 0.04 |
+| País | Ratio crudo | Clasificación absoluta | Grupo |
+|---|---:|---|---|
+| Panamá | -2.47 | Crítica | Dolarizada |
+| Argentina | -1.53 | Alta | Emisora |
+| Ecuador | -1.31 | Alta | Dolarizada |
+| El Salvador | -0.55 | Moderada | Dolarizada |
+| República Dominicana | -0.51 | Moderada | Emisora |
+| Paraguay | -0.28 | Moderada | Emisora |
+| Uruguay | -0.22 | Moderada | Emisora |
+| Costa Rica | -0.19 | Moderada | Emisora |
+| Chile | -0.10 | Moderada | Emisora |
+| Nicaragua | -0.10 | Moderada | Emisora |
+| Colombia | -0.10 | Moderada | Emisora |
+| Honduras | -0.09 | Moderada | Emisora |
+| Guatemala | -0.06 | Moderada | Emisora |
+| Perú | -0.05 | Moderada | Emisora |
+| México | -0.04 | Moderada | Emisora |
+| Brasil | 0.04 | Holgura | Emisora |
 
-> **Nota metodológica**: el índice es un **ranking relativo dentro de la muestra de 16 países**, no una medida absoluta de vulnerabilidad. Un índice de 0.06 (Brasil) indica el mejor desempeño de la muestra, **no ausencia de vulnerabilidad**. Para la magnitud real, consultar el ratio crudo: Brasil muestra un ratio ligeramente positivo (+0.04), reflejo de entradas netas contractuales en el horizonte de 12 meses, mientras que en Panamá los drenajes netos equivalen a 2.5 veces sus reservas.
+El ranking relativo se conserva como referencia, pero la métrica central es el ratio crudo y su clasificación absoluta.
 
-## Nota sobre economías dolarizadas
+## Reservas: doble reporte
 
-**Panamá, Ecuador y El Salvador** no emiten moneda propia y no cuentan con prestamista de última instancia en moneda propia. Sus reservas cumplen una función de liquidez distinta a la de un banco central emisor: un ratio drenajes/reservas elevado indica vulnerabilidad **más severa**, no directamente comparable con la de países con banco central emisor.
+Mientras la conciliación no esté completa, el proyecto reporta:
 
-## Metodología
+- **Ratio base IRFCL**: denominador `RAFA_USD`, comparable entre países.
+- **Ratio alternativo con reservas locales**: denominador reportado por el banco central, cuando esté disponible.
+- **Rango por definición de reservas**: resultado de usar ambas denominaciones.
 
-El índice se construye con el ratio de **drenajes netos predeterminados sobre reservas totales** del FMI (IRFCL):
+La conciliación se documenta país por país en [`docs/RESERVES_RECONCILIATION.md`](docs/RESERVES_RECONCILIATION.md).
 
-$$
-\text{ratio} = \frac{\text{drenajes netos predeterminados}}{\text{reservas oficiales totales}}
-$$
+## Incertidumbre y escenarios
 
-- **Drenajes netos predeterminados** (`RAPFA_USD`): obligaciones en divisa con vencimiento cierto en los próximos 12 meses (amortizaciones de deuda, forwards/futuros, repos), netas de las entradas contractuales equivalentes en el mismo horizonte. Un ratio positivo (como el de Brasil, +0.04) indica entradas netas.
-- **Reservas totales** (`RAFA_USD`): divisa convertible, títulos, oro, DEG y posición de reserva en el FMI.
-- **Drenajes contingentes** (garantías, puttable bonds, líneas de crédito no dibujadas, opciones): se reportan y desagregan por instrumento en el dashboard, pero **no entran en el cálculo del índice**.
-- **Normalización**: rank percentil del ratio dentro de la muestra de 16 países por año. El ratio más negativo (drenajes que más superan las reservas) recibe índice 1.0.
-- **Filtro**: se excluyen observaciones con reservas menores a 100 M USD.
+Cada país debe reportar:
 
-Ver [docs/METHODOLOGY.md](docs/METHODOLOGY.md) para el detalle completo.
+- Ratio base IRFCL.
+- Rango por definición de reservas: IRFCL frente a reservas locales.
+- Rango por revisión histórica de datos IRFCL.
+- Ratio ajustado por drenajes contingentes.
 
-## Validación de reservas (2024)
+Estos rangos no deben presentarse como intervalos de confianza estadísticos: son escenarios de sensibilidad basados en definiciones, revisiones y supuestos.
 
-Se calculó el cociente entre las reservas IRFCL (`RAFA_USD`) y las reservas totales publicadas por cada banco central (fuente de referencia):
+## Backtesting
 
-| País | IRFCL / referencia |
-|---|---|
-| Perú | 0.99 |
-| México | 1.01 |
-| Colombia | 0.94 |
-| Brasil | 0.93 |
-| Chile | 0.89 |
-| Argentina | 0.72 |
+El poder discriminante del indicador se evalúa en [`docs/BACKTESTING.md`](docs/BACKTESTING.md) y `src/backtesting.py`.
 
-Los cocientes por debajo de 1 reflejan diferencias de cobertura, valuación o fecha de corte entre la serie IRFCL y las cifras publicadas por cada banco central. Para Argentina (0.72), la brecha del 28% es la mayor de la muestra; el índice usa el denominador IRFCL por consistencia entre países, y la causa específica de la brecha no está determinada (ver [docs/METHODOLOGY.md](docs/METHODOLOGY.md)). El caso de México (1.01) refleja una diferencia de definición o fecha de corte entre fuentes y se documenta como tal en la metodología.
+Episodios iniciales:
+
+- Argentina 2001.
+- Ecuador 1999.
+- Argentina 2018.
+- Turquía 2018 y Sri Lanka 2022 como casos externos de robustez.
+
+La evaluación usa datos de 12 y 24 meses antes de cada crisis, controles sin crisis, validación temporal y métricas de recall, precisión, falsos positivos y AUC con intervalos bootstrap.
 
 ## Instalación y ejecución
 
@@ -100,34 +119,22 @@ git clone https://github.com/rojolimh-byte/monitor-soberano-lac.git
 cd monitor-soberano-lac
 pip install -r requirements.txt
 streamlit run dashboards/app.py
+pytest -q
 ```
 
-**Dashboard en vivo**: [https://monitor-soberano-lac-r5v8qbtx7b923nwcaybrvn.streamlit.app/](https://monitor-soberano-lac-r5v8qbtx7b923nwcaybrvn.streamlit.app/)
+## Fuentes
 
-## Fuentes y frecuencia
-
-- **IMF IRFCL**: actualización mensual/trimestral según país. [https://data.imf.org/en/datasets/IMF.STA:IRFCL](https://data.imf.org/en/datasets/IMF.STA:IRFCL)
-- **IMF WEO**: actualización semestral (abril/octubre).
-- **Bancos centrales** (BCRA Argentina, BCCh Chile, BanRep Colombia, y reservas publicadas del resto de países para validación): frecuencia diaria/mensual.
+- IMF IRFCL: <https://data.imf.org/en/datasets/IMF.STA:IRFCL>
+- IMF WEO: <https://www.imf.org/en/Publications/WEO>
+- Bancos centrales nacionales para validación de reservas.
 
 ## Limitaciones
 
-- La deuda WEO tiene cobertura parcial (5 países) y se usa como contexto, no como componente del índice.
-- El índice mide vulnerabilidad de stock; no incorpora flujos futuros de ingresos de divisas (exportaciones, IED, remesas).
-- La serie IRFCL `RAFA_USD` corresponde a reservas oficiales totales (incluye oro, DEG y posición de reserva en el FMI). Las diferencias de validación frente a las cifras de los bancos centrales reflejan diferencias de cobertura, valuación o fecha de corte entre fuentes, no la exclusión de oro y DEG.
-- La validación de reservas cubre 6 de los 16 países de la muestra; el resto se basa exclusivamente en datos IRFCL sin verificación cruzada.
-- El índice es relativo a la muestra de 16 países; no es una medida absoluta de riesgo.
-
-## Próximos pasos
-
-- [x] Dashboard interactivo deployado (Streamlit Cloud) — [ver demo](https://monitor-soberano-lac-r5v8qbtx7b923nwcaybrvn.streamlit.app/)
-- [ ] Ampliar cobertura de validación de reservas locales a más países
-- [ ] Incorporar spreads de CDS y calificaciones crediticias
-- [ ] Backtesting sistemático contra episodios de crisis
-- [ ] Alertas automáticas cuando el índice supera umbrales
-
+- El indicador mide posiciones predeterminadas de liquidez; no incorpora flujos futuros como exportaciones, IED o remesas.
+- Los drenajes contingentes se reportan, pero no entran en el ratio base.
+- La validación local de reservas aún no cubre los 16 países.
+- El backtesting inicial tiene una muestra pequeña de crisis y sus métricas deben interpretarse con cautela.
 
 ## Licencia
 
 MIT
-

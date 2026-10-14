@@ -1,0 +1,17 @@
+country,country_iso3,irfcl_date,local_date,reserves_irfcl_usd_mn,reserves_local_usd_mn,fx_valuation_note,gold_sdr_note,pledged_assets,treasury_deposits,reserve_requirements,swaps_active,swaps_potential,explanation,status
+Argentina,ARG,,,,,,, ,,, ,,, ,unresolved
+Brasil,BRA,,,,,,, ,,, ,,, ,unresolved
+Chile,CHL,,,,,,, ,,, ,,, ,unresolved
+Colombia,COL,,,,,,, ,,, ,,, ,unresolved
+Costa Rica,CRI,,,,,,, ,,, ,,, ,unresolved
+Ecuador,ECU,,,,,,, ,,, ,,, ,unresolved
+El Salvador,SLV,,,,,,, ,,, ,,, ,unresolved
+Guatemala,GTM,,,,,,, ,,, ,,, ,unresolved
+Honduras,HND,,,,,,, ,,, ,,, ,unresolved
+México,MEX,,,,,,, ,,, ,,, ,unresolved
+Nicaragua,NIC,,,,,,, ,,, ,,, ,unresolved
+Panamá,PAN,,,,,,, ,,, ,,, ,unresolved
+Paraguay,PRY,,,,,,, ,,, ,,, ,unresolved
+Perú,PER,,,,,,, ,,, ,,, ,unresolved
+República Dominicana,DOM,,,,,,, ,,, ,,, ,unresolved
+Uruguay,URY,,,,,,, ,,, ,,, ,unresolved
