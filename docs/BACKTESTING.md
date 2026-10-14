@@ -1,40 +1,47 @@
 # Backtesting
 
-## Objetivo
+## Implementación actual
 
-Evaluar si el saldo neto predeterminado sobre reservas anticipa crisis de balanza de pagos, crisis cambiarias o defaults externos.
+El backtesting usa directamente `resultados/serie_tiempo_vulnerabilidad_continua.csv`.
 
-## Diseño
+Episodios positivos disponibles:
 
-- Unidad de observación: país-año.
-- Horizontes: 12 y 24 meses antes del episodio.
-- Variable dependiente: inicio de crisis de balanza de pagos, crisis cambiaria, default externo o programa financiero no precautorio del FMI.
-- Validación: temporal o leave-one-country-out. No se usa una partición aleatoria simple.
+- Argentina 2000, asociado a la crisis de 2001.
+- Argentina 2017, asociado a la crisis de 2018.
 
-## Episodios iniciales
+Ecuador 1998, Turquía 2017 y Sri Lanka 2021 no están disponibles en la serie histórica actual, por lo que no pueden incluirse todavía.
 
-| País | Año | Tipo de episodio |
-|---|---:|---|
-| Argentina | 2001 | Default y crisis de balanza de pagos |
-| Ecuador | 1999 | Crisis bancaria y dolarización |
-| Argentina | 2018 | Crisis cambiaria y programa con FMI |
-| Turquía | 2018 | Crisis cambiaria, caso externo |
-| Sri Lanka | 2022 | Default soberano, caso externo |
+## Regla de alerta
 
-Los episodios globales de 2008-2009 y 2020 se tratan como shocks comunes, idealmente con efectos fijos temporales.
+Una alerta se define como:
+
+\[
+R \le \text{umbral}
+\]
+
+donde \(R\) es el saldo neto predeterminado sobre reservas. Valores más negativos implican mayor presión potencial sobre reservas.
+
+## Umbrales evaluados
+
+- -3.0
+- -2.0
+- -1.5
+- -1.0
+- -0.5
+- 0.0
 
 ## Métricas
 
-- Recall o tasa de verdaderos positivos.
+- Verdaderos positivos.
+- Falsos positivos.
+- Falsos negativos.
+- Verdaderos negativos.
+- Recall.
 - Precisión.
 - Tasa de falsos positivos.
-- AUC con intervalo bootstrap.
-- Curva ROC y curva de ganancia.
 
-## Umbral
+## Limitación crítica
 
-El umbral no se fija por conveniencia. Se selecciona según el costo relativo de un falso positivo frente a un falso negativo.
+La muestra actual contiene solo dos episodios positivos. Por ello, las métricas son ilustrativas y no permiten inferir un AUC robusto ni afirmar que el indicador predice crisis.
 
-## Advertencia
-
-Con pocos episodios de crisis, el AUC puede ser muy inestable. Los resultados deben reportarse con intervalos bootstrap y nunca presentarse como prueba causal.
+Para ampliar el backtesting hay que incorporar la serie histórica de Ecuador antes de 1999, Turquía antes de 2018 y Sri Lanka antes de 2022, además de controles sin crisis.

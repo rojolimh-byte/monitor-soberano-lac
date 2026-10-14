@@ -1,50 +1,39 @@
-"""Estructura inicial de backtesting del indicador de vulnerabilidad."""
+"""Backtesting del indicador usando la serie histórica disponible."""
 
 from pathlib import Path
 
 import numpy as np
 import pandas as pd
 
-from index import classify_regime, classify_vulnerability, net_predetermined_ratio
-
 ROOT = Path(__file__).resolve().parents[1]
-DEFAULT_INPUT = ROOT / "data/processed/backtesting_panel.csv"
-DEFAULT_OUTPUT = ROOT / "resultados/backtesting_metrics.csv"
+SERIES = ROOT / "resultados/serie_tiempo_vulnerabilidad_continua.csv"
+OUTPUT = ROOT / "resultados/backtesting_metrics.csv"
 
-REQUIRED_COLUMNS = [
-    "country",
-    "year",
-    "net_predetermined_flows",
-    "reserves",
-    "crisis_next_12m",
-]
+# Episodios cuyo año previo está disponible en la serie histórica.
+CRISIS_PRIOR_YEARS = {
+    ("Argentina", 2000),  # crisis de 2001
+    ("Argentina", 2017),  # crisis de 2018
+}
 
 
-def load_panel(path: Path = DEFAULT_INPUT) -> pd.DataFrame:
-    df = pd.read_csv(path)
-    missing = set(REQUIRED_COLUMNS) - set(df.columns)
-    if missing:
-        raise ValueError(f"Faltan columnas: {sorted(missing)}")
+def build_panel() -> pd.DataFrame:
+    df = pd.read_csv(SERIES)
+    df = df[df["anio"] <= 2023].copy()
+    df["crisis_next_12m"] = [
+        int((pais, anio) in CRISIS_PRIOR_YEARS)
+        for pais, anio in zip(df["pais"], df["anio"])
+    ]
+    df = df.rename(columns={
+        "pais": "country",
+        "anio": "year",
+        "drenaje": "net_predetermined_flows",
+        "reservas": "reserves",
+        "ratio_drenaje_reservas": "ratio",
+    })
     return df
 
 
-def add_scores(df: pd.DataFrame) -> pd.DataFrame:
-    out = df.copy()
-    out["ratio"] = out.apply(
-        lambda row: net_predetermined_ratio(
-            row["net_predetermined_flows"], row["reserves"]
-        ),
-        axis=1,
-    )
-    out["regime"] = out["country"].apply(classify_regime)
-    out["classification"] = out.apply(
-        lambda row: classify_vulnerability(row["ratio"], row["country"]), axis=1
-    )
-    return out
-
-
-def evaluate_threshold(df: pd.DataFrame, threshold: float) -> dict[str, float]:
-    """Evalúa una regla: ratio <= threshold implica alerta."""
+def evaluate_threshold(df: pd.DataFrame, threshold: float) -> dict:
     y_true = df["crisis_next_12m"].astype(bool)
     y_pred = df["ratio"] <= threshold
 
@@ -53,29 +42,26 @@ def evaluate_threshold(df: pd.DataFrame, threshold: float) -> dict[str, float]:
     fn = int((y_true & ~y_pred).sum())
     tn = int((~y_true & ~y_pred).sum())
 
-    recall = tp / (tp + fn) if tp + fn else np.nan
-    precision = tp / (tp + fp) if tp + fp else np.nan
-    fpr = fp / (fp + tn) if fp + tn else np.nan
-
     return {
         "threshold": threshold,
         "true_positives": tp,
         "false_positives": fp,
         "false_negatives": fn,
         "true_negatives": tn,
-        "recall": recall,
-        "precision": precision,
-        "false_positive_rate": fpr,
+        "recall": tp / (tp + fn) if tp + fn else np.nan,
+        "precision": tp / (tp + fp) if tp + fp else np.nan,
+        "false_positive_rate": fp / (fp + tn) if fp + tn else np.nan,
     }
 
 
 def main() -> None:
-    df = add_scores(load_panel())
-    thresholds = [-2.0, -1.5, -1.0, -0.5, 0.0]
+    df = build_panel()
+    thresholds = [-3.0, -2.0, -1.5, -1.0, -0.5, 0.0]
     metrics = pd.DataFrame([evaluate_threshold(df, t) for t in thresholds])
-    DEFAULT_OUTPUT.parent.mkdir(parents=True, exist_ok=True)
-    metrics.to_csv(DEFAULT_OUTPUT, index=False)
+    OUTPUT.parent.mkdir(parents=True, exist_ok=True)
+    metrics.to_csv(OUTPUT, index=False)
     print(metrics.to_string(index=False))
+    print("\nAdvertencia: la muestra contiene solo dos episodios positivos disponibles.")
 
 
 if __name__ == "__main__":
