@@ -32,23 +32,24 @@ COUNTRY_BY_ISO3 = {
     "HND": "Honduras",
     "NIC": "Nicaragua",
     "PRY": "Paraguay",
+    "VEN": "Venezuela",
+    "JAM": "Jamaica",
+    "BRB": "Barbados",
 }
 
-# Episodios candidatos. Solo se evalúan los que tengan observación del año
-# previo en la serie histórica disponible.
+# Episodios compatibles: países del continente americano. Solo se evalúan los
+# que tengan observación del año previo en la serie histórica disponible.
 CRISIS_EPISODES = [
     {"iso3": "ARG", "year": 2001, "type": "default"},
     {"iso3": "ECU", "year": 1999, "type": "dollarization"},
     {"iso3": "ARG", "year": 2018, "type": "currency"},
-    {"iso3": "TUR", "year": 2018, "type": "currency"},
-    {"iso3": "LKA", "year": 2022, "type": "default"},
     {"iso3": "BRA", "year": 1999, "type": "devaluation"},
-    {"iso3": "BRA", "year": 2002, "type": "electoral"},
-    {"iso3": "BRA", "year": 2015, "type": "fiscal"},
-    {"iso3": "MEX", "year": 1994, "type": "tequila"},
     {"iso3": "COL", "year": 1999, "type": "banking"},
+    {"iso3": "MEX", "year": 1994, "type": "tequila"},
+    {"iso3": "URY", "year": 2002, "type": "banking_currency"},
     {"iso3": "VEN", "year": 2014, "type": "currency"},
     {"iso3": "VEN", "year": 2017, "type": "default"},
+    {"iso3": "ECU", "year": 2020, "type": "default"},
     {"iso3": "DOM", "year": 2003, "type": "banking"},
     {"iso3": "JAM", "year": 2010, "type": "default"},
     {"iso3": "BRB", "year": 2018, "type": "restructuring"},
