@@ -21,9 +21,11 @@ Ejemplo:
 
 | Carpeta | País | Archivo | Años mínimos requeridos |
 |---|---|---|---|
-| `data/raw/official/ECU/` | Ecuador | `irfcl_ecu.csv` | 1998 y 2019 |
-| `data/raw/official/MEX/` | México | `irfcl_mex.csv` | 1993 |
-| `data/raw/official/BRA/` | Brasil | `irfcl_bra.csv` | 1998 |
+| `data/raw/official/ARG/` | Argentina | `irfcl_arg.csv` | 2019 |
+| `data/raw/official/ECU/` | Ecuador | `irfcl_ecu.csv` | 1998, 2007 y 2019 |
+| `data/raw/official/MEX/` | México | `irfcl_mex.csv` | 1981 y 1993 |
+| `data/raw/official/BRA/` | Brasil | `irfcl_bra.csv` | 1982 y 1998 |
+| `data/raw/official/CHL/` | Chile | `irfcl_chl.csv` | 1981 |
 | `data/raw/official/URY/` | Uruguay | `irfcl_ury.csv` | 2001 |
 | `data/raw/official/VEN/` | Venezuela | `irfcl_ven.csv` | 2013 y 2016 |
 | `data/raw/official/DOM/` | República Dominicana | `irfcl_dom.csv` | 2002 |

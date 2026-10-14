@@ -16,9 +16,11 @@ REPORT = ROOT / "data/quality_reports/irfcl_history_coverage.csv"
 
 # Países y años previos requeridos para los episodios de crisis compatibles.
 CONFIG = {
-    "ECU": {"country_name": "Ecuador", "target_years": [1998, 2019], "filename": "irfcl_ecu.csv"},
-    "MEX": {"country_name": "México", "target_years": [1993], "filename": "irfcl_mex.csv"},
-    "BRA": {"country_name": "Brasil", "target_years": [1998], "filename": "irfcl_bra.csv"},
+    "ARG": {"country_name": "Argentina", "target_years": [2019], "filename": "irfcl_arg.csv"},
+    "ECU": {"country_name": "Ecuador", "target_years": [1998, 2007, 2019], "filename": "irfcl_ecu.csv"},
+    "MEX": {"country_name": "México", "target_years": [1981, 1993], "filename": "irfcl_mex.csv"},
+    "BRA": {"country_name": "Brasil", "target_years": [1982, 1998], "filename": "irfcl_bra.csv"},
+    "CHL": {"country_name": "Chile", "target_years": [1981], "filename": "irfcl_chl.csv"},
     "URY": {"country_name": "Uruguay", "target_years": [2001], "filename": "irfcl_ury.csv"},
     "VEN": {"country_name": "Venezuela", "target_years": [2013, 2016], "filename": "irfcl_ven.csv"},
     "DOM": {"country_name": "República Dominicana", "target_years": [2002], "filename": "irfcl_dom.csv"},

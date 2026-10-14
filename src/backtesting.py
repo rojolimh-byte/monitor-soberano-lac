@@ -53,6 +53,11 @@ CRISIS_EPISODES = [
     {"iso3": "DOM", "year": 2003, "type": "banking"},
     {"iso3": "JAM", "year": 2010, "type": "default"},
     {"iso3": "BRB", "year": 2018, "type": "restructuring"},
+    {"iso3": "ARG", "year": 2020, "type": "default"},
+    {"iso3": "ECU", "year": 2008, "type": "default"},
+    {"iso3": "CHL", "year": 1982, "type": "banking_currency"},
+    {"iso3": "MEX", "year": 1982, "type": "debt_crisis"},
+    {"iso3": "BRA", "year": 1983, "type": "debt_crisis"},
 ]
 
 
