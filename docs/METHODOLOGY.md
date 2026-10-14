@@ -5,11 +5,15 @@
 El monitor usa el saldo neto predeterminado en divisa sobre reservas oficiales totales del IRFCL:
 
 \[
-R = \frac{\text{Entradas contractuales} - \text{Salidas contractuales}}{\text{Reservas oficiales totales}}
+R =
+\frac{\text{Saldo neto predeterminado}}
+{\text{Reservas oficiales totales}}
 \]
 
-- `RAPFA_USD`: saldo neto predeterminado del IRFCL. En esta implementación se interpreta como entradas contractuales menos salidas contractuales en los próximos 12 meses.
-- `RAFA_USD`: reservas oficiales totales.
+Donde:
+
+- **Saldo neto predeterminado**: entradas contractuales menos salidas contractuales en moneda extranjera (`RAPFA_USD`).
+- **Reservas oficiales totales**: reservas oficiales totales (`RAFA_USD`).
 
 ## Convención de signos
 

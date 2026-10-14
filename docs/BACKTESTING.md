@@ -1,15 +1,19 @@
 # Backtesting
 
-## Implementación actual
+## Alcance geográfico
 
-El backtesting usa directamente `resultados/serie_tiempo_vulnerabilidad_continua.csv`.
+El backtesting se limita a países del continente americano.
 
-Episodios positivos disponibles:
+No se incluyen Turquía ni Sri Lanka como episodios de evaluación.
 
-- Argentina 2000, asociado a la crisis de 2001.
-- Argentina 2017, asociado a la crisis de 2018.
+## Episodios disponibles
 
-Ecuador 1998, Turquía 2017 y Sri Lanka 2021 no están disponibles en la serie histórica actual, por lo que no pueden incluirse todavía.
+| País | Año de crisis | Año previo utilizado |
+|---|---:|---:|
+| Argentina | 2001 | 2000 |
+| Argentina | 2018 | 2017 |
+
+Ecuador 1999 no puede incluirse todavía porque su observación de 1998 no está disponible en la serie histórica actual.
 
 ## Regla de alerta
 
@@ -44,4 +48,4 @@ donde \(R\) es el saldo neto predeterminado sobre reservas. Valores más negativ
 
 La muestra actual contiene solo dos episodios positivos. Por ello, las métricas son ilustrativas y no permiten inferir un AUC robusto ni afirmar que el indicador predice crisis.
 
-Para ampliar el backtesting hay que incorporar la serie histórica de Ecuador antes de 1999, Turquía antes de 2018 y Sri Lanka antes de 2022, además de controles sin crisis.
+Para ampliar el backtesting hay que incorporar la serie histórica de Ecuador antes de 1999 y controles sin crisis adicionales.
