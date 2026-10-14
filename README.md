@@ -48,7 +48,7 @@ Para economías dolarizadas —Panamá, Ecuador y El Salvador— se usan umbrale
 
 ## Segmentación monetaria
 
-El dashboard y los análisis deben separar:
+El dashboard y los análisis separan:
 
 - **Emisoras**: países con banco central emisor y capacidad de actuar como prestamista de última instancia.
 - **Dolarizadas**: Panamá, Ecuador y El Salvador.
@@ -101,16 +101,16 @@ Estos rangos no deben presentarse como intervalos de confianza estadísticos: so
 
 ## Backtesting
 
-El poder discriminante del indicador se evalúa en [`docs/BACKTESTING.md`](docs/BACKTESTING.md) y `src/backtesting.py`.
+El backtesting se limita a países del continente americano.
 
-Episodios iniciales:
+Episodios disponibles en la serie histórica actual:
 
 - Argentina 2001.
-- Ecuador 1999.
 - Argentina 2018.
-- Turquía 2018 y Sri Lanka 2022 como casos externos de robustez.
 
-La evaluación usa datos de 12 y 24 meses antes de cada crisis, controles sin crisis, validación temporal y métricas de recall, precisión, falsos positivos y AUC con intervalos bootstrap.
+La evaluación utiliza el año previo a cada episodio —Argentina 2000 y Argentina 2017— y todos los demás países y años disponibles como observaciones de control.
+
+La evaluación reporta verdaderos positivos, falsos positivos, falsos negativos, recall, precisión y tasa de falsos positivos para distintos umbrales. Con solo dos episodios positivos, las métricas son ilustrativas y no permiten inferir un AUC robusto.
 
 ## Instalación y ejecución
 
@@ -118,6 +118,7 @@ La evaluación usa datos de 12 y 24 meses antes de cada crisis, controles sin cr
 git clone https://github.com/rojolimh-byte/monitor-soberano-lac.git
 cd monitor-soberano-lac
 pip install -r requirements.txt
+make all
 streamlit run dashboards/app.py
 pytest -q
 ```
@@ -133,7 +134,7 @@ pytest -q
 - El indicador mide posiciones predeterminadas de liquidez; no incorpora flujos futuros como exportaciones, IED o remesas.
 - Los drenajes contingentes se reportan, pero no entran en el ratio base.
 - La validación local de reservas aún no cubre los 16 países.
-- El backtesting inicial tiene una muestra pequeña de crisis y sus métricas deben interpretarse con cautela.
+- El backtesting tiene una muestra pequeña de crisis y sus métricas deben interpretarse con cautela.
 
 ## Licencia
 

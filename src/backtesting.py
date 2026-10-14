@@ -9,7 +9,7 @@ ROOT = Path(__file__).resolve().parents[1]
 SERIES = ROOT / "resultados/serie_tiempo_vulnerabilidad_continua.csv"
 OUTPUT = ROOT / "resultados/backtesting_metrics.csv"
 
-# Episodios cuyo año previo está disponible en la serie histórica.
+# Episodios de países del continente americano cuyo año previo está disponible.
 CRISIS_PRIOR_YEARS = {
     ("Argentina", 2000),  # crisis de 2001
     ("Argentina", 2017),  # crisis de 2018
