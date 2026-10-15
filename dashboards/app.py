@@ -13,6 +13,7 @@ st.set_page_config(page_title="Monitor Soberano LAC", page_icon="🌎", layout="
 
 RUTA_RESULTADOS = ROOT / "resultados" / "indice_vulnerabilidad_integral_latam_2025.csv"
 RUTA_SERIE = ROOT / "resultados" / "serie_tiempo_vulnerabilidad_continua.csv"
+RUTA_MENSUAL = ROOT / "resultados" / "serie_tiempo_vulnerabilidad_mensual.csv"
 DOLARIZADAS = ["Panamá", "Ecuador", "El Salvador"]
 
 RELIABILITY = {
@@ -44,7 +45,14 @@ def cargar_datos():
     df["confiabilidad"] = df["pais"].map(RELIABILITY).fillna("⚪ Sin validación")
 
     df_serie = None
-    if RUTA_SERIE.exists():
+    fuente_mensual = False
+    if RUTA_MENSUAL.exists():
+        ds = pd.read_csv(RUTA_MENSUAL)
+        ds = ds[ds["reservas"].notna() & (ds["reservas"] > 100)].copy()
+        if not ds.empty:
+            df_serie = ds
+            fuente_mensual = True
+    if df_serie is None and RUTA_SERIE.exists():
         ds = pd.read_csv(RUTA_SERIE)
         ds = ds[(ds["anio"] >= 2010) & (ds["reservas"] > 100)].copy()
         if "indice_vulnerabilidad" not in ds.columns or ds["indice_vulnerabilidad"].isna().all():
@@ -52,15 +60,15 @@ def cargar_datos():
                 pct=True, ascending=False
             )
         df_serie = ds
-    return df, df_serie
+    return df, df_serie, fuente_mensual
 
 
-df, df_serie = cargar_datos()
+df, df_serie, fuente_mensual = cargar_datos()
 
 st.title("🌎 Monitor Soberano LAC")
 st.caption(
     "Vulnerabilidad externa predeterminada (IRFCL / reservas) para 16 países de América Latina "
-    "y el Caribe · Datos a 2024 · Fuente: IMF IRFCL"
+    "y el Caribe · Fuente: IMF IRFCL"
 )
 st.warning("⚠️ Herramienta de análisis. No constituye asesoría de inversión ni una predicción de crisis.")
 
@@ -80,7 +88,7 @@ tab_resumen, tab_emisoras, tab_dolarizadas, tab_reservas, tab_backtesting, tab_m
 ])
 
 with tab_resumen:
-    st.subheader("Clasificación absoluta")
+    st.subheader("Clasificación absoluta (2024)")
     st.dataframe(
         df_f[["pais", "ratio", "clasificacion_absoluta", "regimen", "confiabilidad", "indice_vulnerabilidad"]]
         .sort_values("ratio")
@@ -89,7 +97,7 @@ with tab_resumen:
         hide_index=True,
     )
 
-    st.subheader("Ratio crudo")
+    st.subheader("Ratio crudo (2024)")
     fig = px.bar(
         df_f.sort_values("ratio"),
         x="ratio",
@@ -143,8 +151,33 @@ with tab_dolarizadas:
     )
 
 with tab_reservas:
-    st.subheader("Evolución 2010-2024")
-    if df_serie is not None and not df_serie.empty:
+    st.subheader("Evolución de liquidez externa")
+    if fuente_mensual:
+        st.success("Usando datos mensuales IRFCL 2025-2026.")
+        eje_x = "fecha"
+        campo_ratio = "ratio_drenaje_reservas"
+        paises_disponibles = sorted(df_serie["pais"].unique())
+        seleccion = st.multiselect(
+            "Países",
+            options=paises_disponibles,
+            default=[p for p in ["Argentina", "Brasil", "Chile", "Ecuador", "México"] if p in paises_disponibles],
+        )
+        df_s = df_serie[df_serie["pais"].isin(seleccion)].sort_values(["pais", "fecha"])
+        if not df_s.empty:
+            fig_serie = px.line(
+                df_s,
+                x=eje_x,
+                y=campo_ratio,
+                color="pais",
+                markers=True,
+                labels={
+                    campo_ratio: "Saldo neto / reservas",
+                    eje_x: "Mes",
+                },
+            )
+            st.plotly_chart(fig_serie, use_container_width=True)
+    elif df_serie is not None and not df_serie.empty:
+        st.info("Usando datos anuales 2010-2024. Ejecuta download_irfcl.py e ingest_irfcl_monthly.py para habilitar datos mensuales.")
         paises_disponibles = sorted(df_serie["pais"].unique())
         seleccion = st.multiselect(
             "Países",
@@ -177,5 +210,5 @@ with tab_backtesting:
 
 with tab_metodologia:
     st.markdown(
-        "- **Saldo neto predeterminado**: entradas contractuales menos salidas contractuales en 12 meses.\n- **Ratio**: saldo neto predeterminado / reservas IRFCL.\n- **Negativo**: salidas netas; mayor vulnerabilidad.\n- **Positivo**: entradas netas; holgura.\n- **Umbrales emisoras**: 0 a -1 moderada; -1 a -2 alta; menor o igual a -2 crítica.\n- **Umbrales dolarizadas**: -0.5 a -1 moderada; -1 a -2 alta; menor o igual a -2 emergencia.\n- **Confiabilidad de reservas**: aplica exclusivamente al denominador; no valida el numerador.\n- **Panamá**: no comparable con economías emisoras por ausencia de banco central."
+        "- **Saldo neto predeterminado**: entradas contractuales menos salidas contractuales en 12 meses.\n- **Ratio**: saldo neto predeterminado / reservas IRFCL.\n- **Negativo**: salidas netas; mayor vulnerabilidad.\n- **Positivo**: entradas netas; holgura.\n- **Umbrales emisoras**: 0 a -0.5 baja; -0.5 a -1 moderada; -1 a -2 alta; menor o igual a -2 crítica.\n- **Umbrales dolarizadas**: -0.5 a -1 moderada; -1 a -2 alta; menor o igual a -2 emergencia.\n- **Confiabilidad de reservas**: aplica exclusivamente al denominador; no valida el numerador.\n- **Panamá**: no comparable con economías emisoras por ausencia de banco central.\n- **Frecuencia**: mensual cuando existe serie IRFCL 2025-2026; anual como fallback."
     )
