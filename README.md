@@ -41,7 +41,8 @@ Los umbrales siguientes son una clasificación descriptiva de severidad contable
 | Ratio \(R\) | Clasificación | Lectura |
 |---:|---|---|
 | \(R \ge 0\) | Holgura | Entradas netas predeterminadas |
-| \(-1.0 < R < 0\) | Vulnerabilidad moderada | Salidas netas inferiores a las reservas |
+| \(-0.5 < R < 0\) | Vulnerabilidad baja | Salidas netas inferiores a la mitad de las reservas |
+| \(-1.0 < R \le -0.5\) | Vulnerabilidad moderada | Salidas netas entre la mitad y una vez las reservas |
 | \(-2.0 < R \le -1.0\) | Vulnerabilidad alta | Salidas netas entre 1 y 2 veces las reservas |
 | \(R \le -2.0\) | Vulnerabilidad crítica | Salidas netas iguales o superiores a 2 veces las reservas |
 
@@ -83,7 +84,7 @@ Fuentes de referencia: Reinhart-Rogoff, bases de crisis del FMI y bancos central
 
 | Tier | N | Episodios | Definición |
 |---|---:|---|---|
-| Evaluables hoy | 2 | Argentina 2001, Argentina 2018 | Tienen año previo ingesta­do |
+| Evaluables hoy | 2 | Argentina 2001, Argentina 2018 | Tienen año previo ingesta­da |
 | Evaluables tras ingesta (2000+) | 9 | Argentina 2020, Ecuador 2008, Ecuador 2020, Uruguay 2002, Venezuela 2014, Venezuela 2017, República Dominicana 2003, Jamaica 2010, Barbados 2018 | IRFCL mensual disponible desde 2000 |
 | Requieren verificación (1998) | 3 | Ecuador 1999, Brasil 1999, Colombia 1999 | IRFCL anual existe 1995-1998; verificar RAPFA/RAFA |
 | No evaluables con IRFCL | 4 | Chile 1982, México 1982, Brasil 1983, México 1994 | IRFCL no cubre esos años; requerirían fuente nacional |
@@ -99,16 +100,16 @@ Fuentes de referencia: Reinhart-Rogoff, bases de crisis del FMI y bancos central
 | Ecuador | -1.31 | Alta | Dolarizada | ⚪ Sin validación |
 | El Salvador | -0.55 | Moderada | Dolarizada | ⚪ Sin validación |
 | República Dominicana | -0.51 | Moderada | Emisora | ⚪ Sin validación |
-| Paraguay | -0.28 | Moderada | Emisora | ⚪ Sin validación |
-| Uruguay | -0.22 | Moderada | Emisora | ⚪ Sin validación |
-| Costa Rica | -0.19 | Moderada | Emisora | ⚪ Sin validación |
-| Chile | -0.10 | Moderada | Emisora | 🟡 Brecha menor (0.89) |
-| Nicaragua | -0.10 | Moderada | Emisora | ⚪ Sin validación |
-| Colombia | -0.10 | Moderada | Emisora | 🟡 Brecha menor (0.94) |
-| Honduras | -0.09 | Moderada | Emisora | ⚪ Sin validación |
-| Guatemala | -0.06 | Moderada | Emisora | ⚪ Sin validación |
-| Perú | -0.05 | Moderada | Emisora | 🟢 Conciliado (0.99) |
-| México | -0.04 | Moderada | Emisora | 🟢 Conciliado (1.01) |
+| Paraguay | -0.28 | Baja | Emisora | ⚪ Sin validación |
+| Uruguay | -0.22 | Baja | Emisora | ⚪ Sin validación |
+| Costa Rica | -0.19 | Baja | Emisora | ⚪ Sin validación |
+| Chile | -0.10 | Baja | Emisora | 🟡 Brecha menor (0.89) |
+| Nicaragua | -0.10 | Baja | Emisora | ⚪ Sin validación |
+| Colombia | -0.10 | Baja | Emisora | 🟡 Brecha menor (0.94) |
+| Honduras | -0.09 | Baja | Emisora | ⚪ Sin validación |
+| Guatemala | -0.06 | Baja | Emisora | ⚪ Sin validación |
+| Perú | -0.05 | Baja | Emisora | 🟢 Conciliado (0.99) |
+| México | -0.04 | Baja | Emisora | 🟢 Conciliado (1.01) |
 | Brasil | 0.04 | Holgura | Emisora | 🟡 Brecha menor (0.93) |
 
 El ranking relativo se conserva como referencia, pero la métrica central es el ratio crudo.
@@ -153,6 +154,25 @@ La conciliación se documenta país por país en [`docs/RESERVES_RECONCILIATION.
 | Sin validación local | 10 | Resto de la muestra |
 
 Argentina mantiene la brecha más grande: 28%. Hasta resolver la conciliación, se muestra únicamente con el ratio IRFCL y una advertencia visible. Su clasificación absoluta no debe utilizarse para conclusiones comparativas fuertes.
+
+## Diagnóstico de la brecha argentina
+
+La brecha de 0.72 entre IRFCL y reservas locales probablemente refleja diferencias entre reservas brutas y netas:
+
+- **Swaps con el PBOC**: los swaps con China aumentan las reservas brutas pero el FMI los trata como pasivos de corto plazo para fines de programa.
+- **Encajes en dólares**: los requisitos de liquidez en moneda extranjera reducen las reservas utilizables.
+- **Repos y otras operaciones**: pueden afectar la disponibilidad efectiva de divisas.
+
+**Acción pendiente**: descomponer la brecha argentina por componente —brutas, swaps, encajes y repos— para documentar cuánto corresponde a cada factor.
+
+## Cobertura de la muestra
+
+La muestra actual cubre 16 países. **Bolivia y Venezuela no están incluidos**:
+
+- **Bolivia**: evaluar factibilidad de inclusión según disponibilidad y calidad IRFCL.
+- **Venezuela**: evaluar factibilidad de inclusión; la cobertura IRFCL puede ser limitada.
+
+Hasta resolverlo, el ranking debe leerse como cobertura parcial de la región, no como el universo completo de economías frágiles.
 
 ## Incertidumbre y escenarios
 
@@ -199,6 +219,10 @@ Además del ratio base, el proyecto incorpora dos módulos de contexto que **no 
 | ✅ Implementado v0.1 | Mercado | CDS, calificaciones, divergencias |
 | 🟡 En progreso | Conciliación de reservas | Framework por componente; faltan 10 países |
 | 🟡 En progreso | Backtesting | 18 episodios definidos; 11 potencialmente evaluables con IRFCL; 3 por verificar; 4 requieren fuente nacional |
+| 🟡 En progreso | Diagnóstico Argentina | Descomponer brecha por swaps, encajes y repos |
+| ⚪ Pendiente | Frecuencia mensual | Migrar pipeline y backtesting a datos mensuales IRFCL |
+| ⚪ Pendiente | Actualización de datos | Incorporar observaciones 2025-2026 |
+| ⚪ Pendiente | Cobertura ampliada | Evaluar inclusión de Bolivia y Venezuela |
 | ⚪ Pendiente | Alertas automáticas | Automatizar IRFCL y reservas locales |
 | ⚪ Pendiente | Validación externa | Comparar con EMBI; someter la metodología a revisión externa |
 
@@ -226,6 +250,7 @@ pytest -q
 - La validación local de reservas aún no cubre los 16 países.
 - El backtesting tiene 18 episodios definidos; 11 potencialmente evaluables con IRFCL, 3 por verificar y 4 que requieren fuente nacional.
 - Panamá no es comparable con economías emisoras por ausencia de banco central.
+- Bolivia y Venezuela no están incluidos en la muestra actual.
 
 ## Licencia
 
