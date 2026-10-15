@@ -79,15 +79,16 @@ Los episodios se seleccionaron por su relevancia para la liquidez externa: no to
 
 Fuentes de referencia: Reinhart-Rogoff, bases de crisis del FMI y bancos centrales nacionales.
 
-**Estado de evaluabilidad**:
+**Disponibilidad IRFCL y evaluabilidad**:
 
-| Estado | N | Definición |
-|---|---:|---|
-| Definidos | 18 | Episodios incluidos en `CRISIS_EPISODES` |
-| Con datos IRFCL disponibles | 2 | Tienen observación del año previo ingesta­da |
-| **Evaluables en backtesting** | **2** | Argentina 2000 y Argentina 2017 |
+| Tier | N | Episodios | Definición |
+|---|---:|---|---|
+| Evaluables hoy | 2 | Argentina 2001, Argentina 2018 | Tienen año previo ingesta­do |
+| Evaluables tras ingesta (2000+) | 9 | Argentina 2020, Ecuador 2008, Ecuador 2020, Uruguay 2002, Venezuela 2014, Venezuela 2017, República Dominicana 2003, Jamaica 2010, Barbados 2018 | IRFCL mensual disponible desde 2000 |
+| Requieren verificación (1998) | 3 | Ecuador 1999, Brasil 1999, Colombia 1999 | IRFCL anual existe 1995-1998; verificar RAPFA/RAFA |
+| No evaluables con IRFCL | 4 | Chile 1982, México 1982, Brasil 1983, México 1994 | IRFCL no cubre esos años; requerirían fuente nacional |
 
-La diferencia entre definidos y evaluables refleja que los archivos IRFCL históricos de los demás episodios aún no fueron cargados ni procesados. Los episodios anteriores a 2000 probablemente no serán evaluables con IRFCL, porque el template mensual comenzó a difundirse en 2000.
+**Consecuencia para la hoja de ruta**: la muestra máxima evaluable con IRFCL es de 11 episodios (2 actuales + 9 tras ingesta), más 3 por verificar. Los 4 episodios pre-1995 requieren fuentes nacionales alternativas o deben excluirse del backtesting.
 
 ## Resultado principal (2024)
 
@@ -197,7 +198,7 @@ Además del ratio base, el proyecto incorpora dos módulos de contexto que **no 
 | ✅ Implementado v0.1 | Flujos externos | Exportaciones, IED, remesas, HHI |
 | ✅ Implementado v0.1 | Mercado | CDS, calificaciones, divergencias |
 | 🟡 En progreso | Conciliación de reservas | Framework por componente; faltan 10 países |
-| 🟡 En progreso | Backtesting | 18 episodios definidos; 2 evaluables hasta ingestar históricos |
+| 🟡 En progreso | Backtesting | 18 episodios definidos; 11 potencialmente evaluables con IRFCL; 3 por verificar; 4 requieren fuente nacional |
 | ⚪ Pendiente | Alertas automáticas | Automatizar IRFCL y reservas locales |
 | ⚪ Pendiente | Validación externa | Comparar con EMBI; someter la metodología a revisión externa |
 
@@ -223,7 +224,7 @@ pytest -q
 - El indicador mide posiciones predeterminadas de liquidez; no incorpora flujos futuros como exportaciones, IED o remesas.
 - Los drenajes contingentes se reportan, pero no entran en el ratio base.
 - La validación local de reservas aún no cubre los 16 países.
-- El backtesting tiene 18 episodios definidos, pero solo 2 evaluables con datos disponibles; no valida los umbrales de clasificación.
+- El backtesting tiene 18 episodios definidos; 11 potencialmente evaluables con IRFCL, 3 por verificar y 4 que requieren fuente nacional.
 - Panamá no es comparable con economías emisoras por ausencia de banco central.
 
 ## Licencia
