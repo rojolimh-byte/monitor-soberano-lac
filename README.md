@@ -157,7 +157,7 @@ Argentina mantiene la brecha más grande: 28%. Hasta resolver la conciliación, 
 
 ## Diagnóstico de la brecha argentina
 
-La brecha de 0.72 entre IRFCL y reservas locales probablemente refleja diferencias entre reservas brutas y netas:
+El ratio IRFCL/local de 0.72 implica una brecha del 28% entre reservas IRFCL y reservas locales. La brecha probablemente refleja diferencias entre reservas brutas y netas:
 
 - **Swaps con el PBOC**: los swaps con China aumentan las reservas brutas pero el FMI los trata como pasivos de corto plazo para fines de programa.
 - **Encajes en dólares**: los requisitos de liquidez en moneda extranjera reducen las reservas utilizables.
