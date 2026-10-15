@@ -36,7 +36,7 @@ Un valor más negativo implica mayor vulnerabilidad de liquidez externa.
 
 ## Umbrales absolutos
 
-El indicador principal ya no se presenta solo como ranking relativo. Se clasifica con umbrales absolutos:
+Los umbrales siguientes son una clasificación descriptiva de severidad contable. **No están validados empíricamente como umbrales de alerta temprana.**
 
 | Ratio \(R\) | Clasificación | Lectura |
 |---:|---|---|
@@ -68,7 +68,7 @@ No se comparan umbrales entre grupos: un mismo valor de \(R\) tiene implicacione
 | País | Ratio crudo | Clasificación absoluta | Grupo |
 |---|---:|---|---|
 | Panamá | -2.47 | Crítica | Dolarizada |
-| Argentina | -1.53 | Alta | Emisora |
+| Argentina | -1.53 | No conciliado | Emisora |
 | Ecuador | -1.31 | Alta | Dolarizada |
 | El Salvador | -0.55 | Moderada | Dolarizada |
 | República Dominicana | -0.51 | Moderada | Emisora |
@@ -84,26 +84,24 @@ No se comparan umbrales entre grupos: un mismo valor de \(R\) tiene implicacione
 | México | -0.04 | Moderada | Emisora |
 | Brasil | 0.04 | Holgura | Emisora |
 
-El ranking relativo se conserva como referencia, pero la métrica central es el ratio crudo y su clasificación absoluta.
+El ranking relativo se conserva como referencia, pero la métrica central es el ratio crudo.
 
-## Resultados del backtesting
+## Evaluación preliminar del backtesting
 
-El backtesting usa la serie histórica disponible: 278 observaciones país-año hasta 2023, incluidos dos episodios positivos —Argentina 2000, asociado a la crisis de 2001, y Argentina 2017, asociado a la crisis de 2018—.
+El backtesting disponible es preliminar y no constituye una validación empírica del monitor.
 
-Una alerta se define como \(R \le \text{umbral}\).
+La muestra contiene solo dos episodios positivos, ambos de Argentina:
 
-| Umbral | Crisis anticipadas | Recall | Precisión | Falsos positivos | Tasa de falsos positivos |
-|---:|---:|---:|---:|---:|---:|
-| -3.0 | 0 de 2 | 0% | 0% | 1 | 0.4% |
-| -2.0 | 0 de 2 | 0% | 0% | 2 | 0.7% |
-| -1.5 | 0 de 2 | 0% | 0% | 4 | 1.4% |
-| -1.0 | 2 de 2 | 100% | 18.2% | 9 | 3.3% |
-| -0.5 | 2 de 2 | 100% | 5.7% | 33 | 12.0% |
-| 0.0 | 2 de 2 | 100% | 0.7% | 270 | 97.8% |
+- Argentina 2000, asociado a la crisis de 2001.
+- Argentina 2017, asociado a la crisis de 2018.
 
-**AUC aproximado: 0.975.** Este resultado es ilustrativo: la muestra contiene solo dos episodios positivos y no se ha calculado un intervalo bootstrap.
+Con un umbral de -1.0, el indicador identificó ambos episodios, pero generó 9 falsos positivos. La precisión fue de 18.2%.
 
-**Conclusión:** con un umbral de -1.0, el indicador anticipó 2 de 2 crisis disponibles, con 9 falsos positivos. Esto respalda tentativamente el umbral de vulnerabilidad alta, pero la muestra es demasiado pequeña para validar definitivamente los umbrales de -1.0 y -2.0.
+El umbral de -2.0 no identificó ningún episodio en la muestra disponible. Por ello, los umbrales de -1.0 y -2.0 no están validados empíricamente como umbrales de alerta temprana.
+
+No se calcula ni se presenta un AUC: con solo dos episodios positivos, cualquier métrica de discriminación sería estadísticamente insuficiente.
+
+**Conclusión:** el backtesting actual permite examinar la consistencia interna del indicador, pero no permite afirmar que anticipe crisis ni validar los umbrales de clasificación.
 
 ## Reservas: doble reporte
 
@@ -120,10 +118,11 @@ La conciliación se documenta país por país en [`docs/RESERVES_RECONCILIATION.
 | Estado | Países | Detalle |
 |---|---:|---|
 | Conciliado dentro de ±2% | 2 | Perú (0.99), México (1.01) |
-| Brecha documentada | 4 | Colombia (0.94), Brasil (0.93), Chile (0.89), Argentina (0.72) |
+| Brecha documentada | 3 | Colombia (0.94), Brasil (0.93), Chile (0.89) |
+| No conciliado | 1 | Argentina (0.72) |
 | Sin validación local | 10 | Resto de la muestra |
 
-Argentina mantiene la brecha más grande: 28%. Hasta completar la conciliación, debe mostrar solo el ratio IRFCL con una advertencia visible en el dashboard.
+Argentina mantiene la brecha más grande: 28%. Hasta resolver la conciliación, se muestra únicamente con el ratio IRFCL y una advertencia visible. Su clasificación absoluta no debe utilizarse para conclusiones comparativas fuertes.
 
 ## Incertidumbre y escenarios
 
@@ -140,11 +139,12 @@ Estos rangos no deben presentarse como intervalos de confianza estadísticos: so
 
 | Prioridad | Módulo | Entregable |
 |---:|---|---|
-| 1 | Conciliación de reservas | Completar la validación local de los 16 países y documentar cada brecha |
-| 2 | Flujos externos | Añadir exportaciones/PIB, concentración de exportaciones, IED/PIB y remesas/PIB como contexto |
-| 3 | CDS y calificaciones | Incorporar CDS a 5 años y calificaciones en moneda extranjera como validadores de mercado |
-| 4 | Alertas automáticas | Automatizar IRFCL y reservas locales; generar alertas al cruzar umbrales |
-| 5 | Validación externa | Comparar con EMBI y otros indicadores de vulnerabilidad; someter la metodología a revisión externa |
+| 1 | Conciliación de reservas | Resolver la brecha argentina y completar la validación local de los 16 países |
+| 2 | Ampliación del backtesting | Incorporar al menos 10 episodios de crisis en múltiples países, con controles y validación temporal |
+| 3 | Flujos externos | Añadir exportaciones/PIB, concentración de exportaciones, IED/PIB y remesas/PIB como contexto |
+| 4 | CDS y calificaciones | Incorporar CDS a 5 años y calificaciones en moneda extranjera como validadores de mercado |
+| 5 | Alertas automáticas | Automatizar IRFCL y reservas locales; generar alertas al cruzar umbrales |
+| 6 | Validación externa | Comparar con EMBI y otros indicadores de vulnerabilidad; someter la metodología a revisión externa |
 
 Los flujos y los indicadores de mercado no deben modificar el ratio base: sirven para contextualizar la vulnerabilidad de stock y detectar divergencias entre fundamentos y percepción de mercado.
 
@@ -170,7 +170,7 @@ pytest -q
 - El indicador mide posiciones predeterminadas de liquidez; no incorpora flujos futuros como exportaciones, IED o remesas.
 - Los drenajes contingentes se reportan, pero no entran en el ratio base.
 - La validación local de reservas aún no cubre los 16 países.
-- El backtesting tiene una muestra pequeña de crisis y sus métricas deben interpretarse con cautela.
+- El backtesting tiene una muestra extremadamente pequeña y no valida los umbrales de clasificación.
 
 ## Licencia
 
