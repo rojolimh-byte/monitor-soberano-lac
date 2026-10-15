@@ -8,13 +8,14 @@ DOLLARIZED_COUNTRIES = {"Panamá", "Ecuador", "El Salvador"}
 
 @dataclass(frozen=True)
 class Thresholds:
+    low: float
     moderate: float
     high: float
     critical: float
 
 
-EMITTER_THRESHOLDS = Thresholds(moderate=0.0, high=-1.0, critical=-2.0)
-DOLLARIZED_THRESHOLDS = Thresholds(moderate=-0.5, high=-1.0, critical=-2.0)
+EMITTER_THRESHOLDS = Thresholds(low=-0.5, moderate=-1.0, high=-2.0, critical=-2.0)
+DOLLARIZED_THRESHOLDS = Thresholds(low=-0.5, moderate=-1.0, high=-2.0, critical=-2.0)
 
 
 def net_predetermined_ratio(net_predetermined_flows: float, reserves: float) -> float:
@@ -48,9 +49,11 @@ def classify_vulnerability(ratio: float, country: str) -> str:
         else EMITTER_THRESHOLDS
     )
 
-    if ratio >= thresholds.moderate:
-        return "Holgura o vulnerabilidad baja"
-    if ratio > thresholds.high:
+    if ratio >= 0:
+        return "Holgura"
+    if ratio > thresholds.low:
+        return "Vulnerabilidad baja"
+    if ratio > thresholds.moderate:
         return "Vulnerabilidad moderada"
     if ratio > thresholds.critical:
         return "Vulnerabilidad alta"
