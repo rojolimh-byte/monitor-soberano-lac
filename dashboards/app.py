@@ -22,6 +22,7 @@ RELIABILITY = {
     "Brasil": "🟡 Brecha menor (0.93)",
     "Chile": "🟡 Brecha menor (0.89)",
     "Argentina": "🔴 Brecha crítica (0.72)",
+    "Panamá": "⚠️ No comparable (sin BC)",
 }
 
 
@@ -106,6 +107,13 @@ with tab_resumen:
         "Un valor positivo implica entradas netas contractuales."
     )
 
+    if "Panamá" in df_f["pais"].values:
+        st.warning(
+            "⚠️ Panamá: al no existir banco central, las reservas IRFCL no cumplen la función de "
+            "amortiguador de un prestamista de última instancia. Su ratio no es comparable con "
+            "economías emisoras y no debe usarse para rankings de vulnerabilidad."
+        )
+
 with tab_emisoras:
     st.subheader("Economías emisoras")
     df_e = df_f[~df_f["pais"].isin(DOLARIZADAS)]
@@ -130,7 +138,8 @@ with tab_dolarizadas:
     )
     st.caption(
         "Panamá, Ecuador y El Salvador no tienen prestamista de última instancia en moneda propia; "
-        "sus umbrales son más estrictos."
+        "sus umbrales son más estrictos. Panamá además no tiene banco central, por lo que su ratio "
+        "no es comparable con economías emisoras."
     )
 
 with tab_reservas:
@@ -168,5 +177,5 @@ with tab_backtesting:
 
 with tab_metodologia:
     st.markdown(
-        "- **Saldo neto predeterminado**: entradas contractuales menos salidas contractuales en 12 meses.\n- **Ratio**: saldo neto predeterminado / reservas IRFCL.\n- **Negativo**: salidas netas; mayor vulnerabilidad.\n- **Positivo**: entradas netas; holgura.\n- **Umbrales emisoras**: 0 a -1 moderada; -1 a -2 alta; menor o igual a -2 crítica.\n- **Umbrales dolarizadas**: -0.5 a -1 moderada; -1 a -2 alta; menor o igual a -2 emergencia.\n- **Confiabilidad de reservas**: aplica exclusivamente al denominador; no valida el numerador."
+        "- **Saldo neto predeterminado**: entradas contractuales menos salidas contractuales en 12 meses.\n- **Ratio**: saldo neto predeterminado / reservas IRFCL.\n- **Negativo**: salidas netas; mayor vulnerabilidad.\n- **Positivo**: entradas netas; holgura.\n- **Umbrales emisoras**: 0 a -1 moderada; -1 a -2 alta; menor o igual a -2 crítica.\n- **Umbrales dolarizadas**: -0.5 a -1 moderada; -1 a -2 alta; menor o igual a -2 emergencia.\n- **Confiabilidad de reservas**: aplica exclusivamente al denominador; no valida el numerador.\n- **Panamá**: no comparable con economías emisoras por ausencia de banco central."
     )

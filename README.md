@@ -5,7 +5,7 @@
 [![Data: IMF IRFCL](https://img.shields.io/badge/Data-IMF%20IRFCL-blueviolet)](https://data.imf.org/en/datasets/IMF.STA:IRFCL)
 [![Live Demo](https://img.shields.io/badge/Live-Demo-success)](https://monitor-soberano-lac.streamlit.app)
 
-**Monitor de vulnerabilidad externa (IRFCL-FMI) para 16 países de América Latina y el Caribe.**
+**Monitor de liquidez externa de corto plazo para 16 países de América Latina y el Caribe.**
 
 ![Índice de vulnerabilidad](reports/indice_vulnerabilidad_integral_latam_2025.png)
 
@@ -63,6 +63,8 @@ El dashboard y los análisis separan:
 
 No se comparan umbrales entre grupos: un mismo valor de \(R\) tiene implicaciones distintas según el régimen monetario.
 
+**Panamá**: al no existir banco central, las reservas IRFCL no cumplen la función de amortiguador de un prestamista de última instancia. Su ratio se reporta con fines informativos, pero **no es comparable** con el de economías emisoras y no debe usarse para rankings de vulnerabilidad.
+
 ## Muestra de episodios de crisis
 
 Se definieron **18 episodios de crisis** en América Latina y economías comparables (1982-2023) usando criterios operativos de crisis externa:
@@ -85,13 +87,13 @@ Fuentes de referencia: Reinhart-Rogoff, bases de crisis del FMI y bancos central
 | Con datos IRFCL disponibles | 2 | Tienen observación del año previo ingesta­da |
 | **Evaluables en backtesting** | **2** | Argentina 2000 y Argentina 2017 |
 
-La diferencia entre definidos y evaluables refleja que los archivos IRFCL históricos de los demás episodios aún no fueron cargados ni procesados.
+La diferencia entre definidos y evaluables refleja que los archivos IRFCL históricos de los demás episodios aún no fueron cargados ni procesados. Los episodios anteriores a 2000 probablemente no serán evaluables con IRFCL, porque el template mensual comenzó a difundirse en 2000.
 
 ## Resultado principal (2024)
 
 | País | Ratio crudo | Clasificación absoluta | Grupo | Confiabilidad reservas |
 |---|---:|---|---|---|
-| Panamá | -2.47 | Crítica | Dolarizada | ⚪ Sin validación |
+| Panamá | -2.47 | No comparable | Dolarizada | ⚠️ No comparable (sin BC) |
 | Argentina | -1.53 | No conciliado | Emisora | 🔴 Brecha crítica (0.72) |
 | Ecuador | -1.31 | Alta | Dolarizada | ⚪ Sin validación |
 | El Salvador | -0.55 | Moderada | Dolarizada | ⚪ Sin validación |
@@ -111,6 +113,8 @@ La diferencia entre definidos y evaluables refleja que los archivos IRFCL histó
 El ranking relativo se conserva como referencia, pero la métrica central es el ratio crudo.
 
 **Nota**: la confiabilidad se refiere exclusivamente al denominador (reservas). El numerador (drenajes netos) proviene del IRFCL y no tiene validación cruzada en este proyecto. Un ratio con reservas conciliadas no implica que el numerador sea exacto.
+
+**Nota Panamá**: el ratio de Panamá puede sobreestimar la vulnerabilidad porque el denominador IRFCL no cumple la función de reservas de un banco central emisor. Se reporta con fines informativos, no comparativos.
 
 ## Evaluación descriptiva del backtesting
 
@@ -220,6 +224,7 @@ pytest -q
 - Los drenajes contingentes se reportan, pero no entran en el ratio base.
 - La validación local de reservas aún no cubre los 16 países.
 - El backtesting tiene 18 episodios definidos, pero solo 2 evaluables con datos disponibles; no valida los umbrales de clasificación.
+- Panamá no es comparable con economías emisoras por ausencia de banco central.
 
 ## Licencia
 
