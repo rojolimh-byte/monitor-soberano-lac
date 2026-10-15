@@ -48,7 +48,7 @@ Los umbrales siguientes son una clasificación descriptiva de severidad contable
 Para economías dolarizadas —Panamá, Ecuador y El Salvador— se usan umbrales más estrictos porque no existe prestamista de última instancia en moneda propia:
 
 | Ratio \(R\) | Clasificación dolarizada |
-|---:|---|
+|---|---|
 | \(R \ge -0.5\) | Holgura o vulnerabilidad baja |
 | \(-1.0 < R \le -0.5\) | Vulnerabilidad moderada |
 | \(-2.0 < R \le -1.0\) | Vulnerabilidad alta |
@@ -63,43 +63,65 @@ El dashboard y los análisis separan:
 
 No se comparan umbrales entre grupos: un mismo valor de \(R\) tiene implicaciones distintas según el régimen monetario.
 
+## Muestra de episodios de crisis
+
+Se definieron **18 episodios de crisis** en América Latina y economías comparables (1982-2023) usando criterios operativos de crisis externa:
+
+1. Devaluación nominal superior al 15% en 12 meses.
+2. Pérdida de reservas superior al 20% en 12 meses.
+3. Default soberano o reestructuración de deuda externa.
+4. Programa del FMI con condicionalidad.
+
+Fuentes de referencia: Reinhart-Rogoff, bases de crisis del FMI y bancos centrales nacionales.
+
+**Estado de evaluabilidad**:
+
+| Estado | N | Definición |
+|---|---:|---|
+| Definidos | 18 | Episodios incluidos en `CRISIS_EPISODES` |
+| Con datos IRFCL disponibles | 2 | Tienen observación del año previo ingesta­da |
+| **Evaluables en backtesting** | **2** | Argentina 2000 y Argentina 2017 |
+
+La diferencia entre definidos y evaluables refleja que los archivos IRFCL históricos de los demás episodios aún no fueron cargados ni procesados.
+
 ## Resultado principal (2024)
 
-| País | Ratio crudo | Clasificación absoluta | Grupo |
-|---|---:|---|---|
-| Panamá | -2.47 | Crítica | Dolarizada |
-| Argentina | -1.53 | No conciliado | Emisora |
-| Ecuador | -1.31 | Alta | Dolarizada |
-| El Salvador | -0.55 | Moderada | Dolarizada |
-| República Dominicana | -0.51 | Moderada | Emisora |
-| Paraguay | -0.28 | Moderada | Emisora |
-| Uruguay | -0.22 | Moderada | Emisora |
-| Costa Rica | -0.19 | Moderada | Emisora |
-| Chile | -0.10 | Moderada | Emisora |
-| Nicaragua | -0.10 | Moderada | Emisora |
-| Colombia | -0.10 | Moderada | Emisora |
-| Honduras | -0.09 | Moderada | Emisora |
-| Guatemala | -0.06 | Moderada | Emisora |
-| Perú | -0.05 | Moderada | Emisora |
-| México | -0.04 | Moderada | Emisora |
-| Brasil | 0.04 | Holgura | Emisora |
+| País | Ratio crudo | Clasificación absoluta | Grupo | Confiabilidad reservas |
+|---|---:|---|---|---|
+| Panamá | -2.47 | Crítica | Dolarizada | ⚪ Sin validación |
+| Argentina | -1.53 | No conciliado | Emisora | 🔴 Brecha crítica (0.72) |
+| Ecuador | -1.31 | Alta | Dolarizada | ⚪ Sin validación |
+| El Salvador | -0.55 | Moderada | Dolarizada | ⚪ Sin validación |
+| República Dominicana | -0.51 | Moderada | Emisora | ⚪ Sin validación |
+| Paraguay | -0.28 | Moderada | Emisora | ⚪ Sin validación |
+| Uruguay | -0.22 | Moderada | Emisora | ⚪ Sin validación |
+| Costa Rica | -0.19 | Moderada | Emisora | ⚪ Sin validación |
+| Chile | -0.10 | Moderada | Emisora | 🟡 Brecha menor (0.89) |
+| Nicaragua | -0.10 | Moderada | Emisora | ⚪ Sin validación |
+| Colombia | -0.10 | Moderada | Emisora | 🟡 Brecha menor (0.94) |
+| Honduras | -0.09 | Moderada | Emisora | ⚪ Sin validación |
+| Guatemala | -0.06 | Moderada | Emisora | ⚪ Sin validación |
+| Perú | -0.05 | Moderada | Emisora | 🟢 Conciliado (0.99) |
+| México | -0.04 | Moderada | Emisora | 🟢 Conciliado (1.01) |
+| Brasil | 0.04 | Holgura | Emisora | 🟡 Brecha menor (0.93) |
 
 El ranking relativo se conserva como referencia, pero la métrica central es el ratio crudo.
 
-## Evaluación preliminar del backtesting
+**Nota**: la confiabilidad se refiere exclusivamente al denominador (reservas). El numerador (drenajes netos) proviene del IRFCL y no tiene validación cruzada en este proyecto. Un ratio con reservas conciliadas no implica que el numerador sea exacto.
+
+## Evaluación descriptiva del backtesting
 
 El backtesting disponible es preliminar y no constituye una validación empírica del monitor.
 
-La muestra contiene solo dos episodios positivos, ambos de Argentina:
+**Advertencia**: esta evaluación es descriptiva sobre 2 episodios positivos; las métricas de discriminación no son estadísticamente interpretables con una muestra tan pequeña.
 
-- Argentina 2000, asociado a la crisis de 2001.
-- Argentina 2017, asociado a la crisis de 2018.
+| Umbral | Crisis anticipadas | Recall | Precisión | Falsos positivos |
+|---|---|---|---|---|
+| -1.0 | 2 de 2 | 100% | 18.2% | 9 |
 
-Con un umbral de -1.0, el indicador identificó ambos episodios, pero generó 9 falsos positivos. La precisión fue de 18.2%.
+El umbral de -2.0 no identificó ningún episodio (recall 0%). La grilla completa de umbrales se genera en `resultados/backtesting_metrics.csv` al ejecutar el pipeline.
 
-El umbral de -2.0 no identificó ningún episodio en la muestra disponible. Por ello, los umbrales de -1.0 y -2.0 no están validados empíricamente como umbrales de alerta temprana.
-
-No se calcula ni se presenta un AUC: con solo dos episodios positivos, cualquier métrica de discriminación sería estadísticamente insuficiente.
+**Lectura**: el umbral de -1.0 identifica ambos episodios, pero con 9 falsos positivos. Esto no valida los umbrales; sugiere que la clasificación actual es descriptiva, no predictiva.
 
 **Conclusión:** el backtesting actual permite examinar la consistencia interna del indicador, pero no permite afirmar que anticipe crisis ni validar los umbrales de clasificación.
 
@@ -135,18 +157,42 @@ Cada país debe reportar:
 
 Estos rangos no deben presentarse como intervalos de confianza estadísticos: son escenarios de sensibilidad basados en definiciones, revisiones y supuestos.
 
+## Módulos de contexto
+
+Además del ratio base, el proyecto incorpora dos módulos de contexto que **no modifican el ratio** y sirven para detectar divergencias entre fundamentos y percepción de mercado.
+
+### Flujos externos
+
+**Estado**: implementado (v0.1), sin validación externa.
+
+**Indicadores**: exportaciones/PIB, concentración de exportaciones (HHI), IED/PIB y remesas/PIB.
+
+**Uso**: contextualizar la vulnerabilidad de stock con la resiliencia de flujos. Un país con ratio vulnerable pero alta resiliencia de flujos enfrenta una presión distinta.
+
+**Limitación**: los flujos son anuales y tienen rezago; no son indicadores adelantados.
+
+### Mercado (CDS y calificaciones)
+
+**Estado**: implementado (v0.1), sin validación externa.
+
+**Indicadores**: CDS a 5 años, calificación en moneda extranjera y divergencia entre fundamentos y percepción de mercado.
+
+**Uso**: detectar complacencia de mercado o prima de riesgo no explicada por el ratio.
+
+**Limitación**: la cobertura de CDS es incompleta en la muestra.
+
+**Nota**: los módulos de flujos y mercado son contexto, no componentes del ratio. En ningún caso modifican el ratio base.
+
 ## Hoja de ruta
 
-| Prioridad | Módulo | Entregable |
-|---:|---|---|
-| 1 | Conciliación de reservas | Resolver la brecha argentina y completar la validación local de los 16 países |
-| 2 | Ampliación del backtesting | Incorporar al menos 10 episodios de crisis en múltiples países, con controles y validación temporal |
-| 3 | Flujos externos | Añadir exportaciones/PIB, concentración de exportaciones, IED/PIB y remesas/PIB como contexto |
-| 4 | CDS y calificaciones | Incorporar CDS a 5 años y calificaciones en moneda extranjera como validadores de mercado |
-| 5 | Alertas automáticas | Automatizar IRFCL y reservas locales; generar alertas al cruzar umbrales |
-| 6 | Validación externa | Comparar con EMBI y otros indicadores de vulnerabilidad; someter la metodología a revisión externa |
-
-Los flujos y los indicadores de mercado no deben modificar el ratio base: sirven para contextualizar la vulnerabilidad de stock y detectar divergencias entre fundamentos y percepción de mercado.
+| Estado | Módulo | Entregable |
+|---|---|---|
+| ✅ Implementado v0.1 | Flujos externos | Exportaciones, IED, remesas, HHI |
+| ✅ Implementado v0.1 | Mercado | CDS, calificaciones, divergencias |
+| 🟡 En progreso | Conciliación de reservas | Framework por componente; faltan 10 países |
+| 🟡 En progreso | Backtesting | 18 episodios definidos; 2 evaluables hasta ingestar históricos |
+| ⚪ Pendiente | Alertas automáticas | Automatizar IRFCL y reservas locales |
+| ⚪ Pendiente | Validación externa | Comparar con EMBI; someter la metodología a revisión externa |
 
 ## Instalación y ejecución
 
@@ -170,7 +216,7 @@ pytest -q
 - El indicador mide posiciones predeterminadas de liquidez; no incorpora flujos futuros como exportaciones, IED o remesas.
 - Los drenajes contingentes se reportan, pero no entran en el ratio base.
 - La validación local de reservas aún no cubre los 16 países.
-- El backtesting tiene una muestra extremadamente pequeña y no valida los umbrales de clasificación.
+- El backtesting tiene 18 episodios definidos, pero solo 2 evaluables con datos disponibles; no valida los umbrales de clasificación.
 
 ## Licencia
 
