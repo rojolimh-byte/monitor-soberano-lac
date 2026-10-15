@@ -71,6 +71,9 @@ Se definieron **18 episodios de crisis** en América Latina y economías compara
 2. Pérdida de reservas superior al 20% en 12 meses.
 3. Default soberano o reestructuración de deuda externa.
 4. Programa del FMI con condicionalidad.
+5. Crisis bancaria sistémica con presión sobre la liquidez externa.
+
+Los episodios se seleccionaron por su relevancia para la liquidez externa: no todos cumplen los cuatro primeros criterios, pero cada uno implica presión potencial sobre reservas o acceso a financiamiento.
 
 Fuentes de referencia: Reinhart-Rogoff, bases de crisis del FMI y bancos centrales nacionales.
 
